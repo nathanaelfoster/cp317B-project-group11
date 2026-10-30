@@ -1,0 +1,12 @@
+stop_id,stop_code,stop_name,stop_lat,stop_lon,wheelchair_boarding
+CONESTOGA,1001,Conestoga Station,43.498,-80.5288,1
+COLUMBIA_KING,1002,Columbia St. / King St.,43.4842,-80.5305,1
+UW_STATION,1003,University of Waterloo Station,43.4733,-80.5413,1
+UNIV_KING,1004,University Ave. / King St.,43.4726,-80.5265,1
+LAURIER_PARK,1005,Laurier-Waterloo Park Station,43.4741,-80.5285,1
+ALBERT_SEAGRAM,1006,Albert St. / Seagram Dr.,43.4762,-80.532,2
+PHILLIP_COLUMBIA,1007,Phillip St. / Columbia St.,43.481,-80.54,1
+PUBLIC_SQUARE,1008,Waterloo Public Square Station,43.4652,-80.5228,1
+GRAND_RIVER_HOSP,1009,Grand River Hospital Station,43.4559,-80.5112,1
+KITCHENER_CITY_HALL,1010,Kitchener City Hall Station,43.4508,-80.4895,1
+FAIRWAY,1011,Fairway Station,43.4248,-80.4405,1

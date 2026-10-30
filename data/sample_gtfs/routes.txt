@@ -1,0 +1,5 @@
+route_id,route_short_name,route_long_name,route_type
+7,7,King,3
+201,201,iXpress Fischer-Hallman,3
+301,301,ION,0
+9,9,Lakeshore,3

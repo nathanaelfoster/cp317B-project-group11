@@ -1,0 +1,959 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,wheelchair_accessible
+7,WKDY,7-WKDY-0-0600,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0610,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0620,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0630,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0640,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0650,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0700,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0710,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0720,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0730,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0740,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0750,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0800,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0810,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0820,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0830,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0840,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0850,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0900,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0910,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0920,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0930,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0940,Fairway Station,0,1
+7,WKDY,7-WKDY-0-0950,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1000,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1010,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1020,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1030,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1040,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1050,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1100,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1110,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1120,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1130,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1140,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1150,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1200,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1210,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1220,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1230,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1240,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1250,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1300,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1310,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1320,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1330,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1340,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1350,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1400,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1410,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1420,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1430,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1440,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1450,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1500,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1510,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1520,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1530,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1540,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1550,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1600,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1610,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1620,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1630,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1640,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1650,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1700,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1710,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1720,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1730,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1740,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1750,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1800,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1810,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1820,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1830,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1840,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1850,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1900,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1910,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1920,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1930,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1940,Fairway Station,0,1
+7,WKDY,7-WKDY-0-1950,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2000,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2010,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2020,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2030,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2040,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2050,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2100,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2110,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2120,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2130,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2140,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2150,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2200,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2210,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2220,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2230,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2240,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2250,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2300,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2310,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2320,Fairway Station,0,1
+7,WKDY,7-WKDY-0-2330,Fairway Station,0,1
+7,WKDY,7-WKDY-1-0600,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0610,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0620,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0630,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0640,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0650,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0700,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0710,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0720,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0730,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0740,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0750,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0800,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0810,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0820,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0830,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0840,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0850,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0900,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0910,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0920,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0930,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0940,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-0950,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1000,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1010,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1020,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1030,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1040,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1050,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1100,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1110,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1120,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1130,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1140,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1150,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1200,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1210,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1220,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1230,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1240,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1250,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1300,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1310,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1320,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1330,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1340,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1350,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1400,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1410,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1420,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1430,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1440,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1450,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1500,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1510,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1520,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1530,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1540,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1550,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1600,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1610,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1620,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1630,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1640,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1650,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1700,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1710,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1720,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1730,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1740,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1750,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1800,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1810,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1820,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1830,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1840,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1850,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1900,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1910,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1920,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1930,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1940,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-1950,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2000,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2010,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2020,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2030,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2040,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2050,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2100,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2110,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2120,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2130,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2140,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2150,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2200,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2210,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2220,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2230,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2240,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2250,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2300,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2310,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2320,Conestoga Station,1,1
+7,WKDY,7-WKDY-1-2330,Conestoga Station,1,1
+7,WKND,7-WKND-0-0600,Fairway Station,0,1
+7,WKND,7-WKND-0-0620,Fairway Station,0,1
+7,WKND,7-WKND-0-0640,Fairway Station,0,1
+7,WKND,7-WKND-0-0700,Fairway Station,0,1
+7,WKND,7-WKND-0-0720,Fairway Station,0,1
+7,WKND,7-WKND-0-0740,Fairway Station,0,1
+7,WKND,7-WKND-0-0800,Fairway Station,0,1
+7,WKND,7-WKND-0-0820,Fairway Station,0,1
+7,WKND,7-WKND-0-0840,Fairway Station,0,1
+7,WKND,7-WKND-0-0900,Fairway Station,0,1
+7,WKND,7-WKND-0-0920,Fairway Station,0,1
+7,WKND,7-WKND-0-0940,Fairway Station,0,1
+7,WKND,7-WKND-0-1000,Fairway Station,0,1
+7,WKND,7-WKND-0-1020,Fairway Station,0,1
+7,WKND,7-WKND-0-1040,Fairway Station,0,1
+7,WKND,7-WKND-0-1100,Fairway Station,0,1
+7,WKND,7-WKND-0-1120,Fairway Station,0,1
+7,WKND,7-WKND-0-1140,Fairway Station,0,1
+7,WKND,7-WKND-0-1200,Fairway Station,0,1
+7,WKND,7-WKND-0-1220,Fairway Station,0,1
+7,WKND,7-WKND-0-1240,Fairway Station,0,1
+7,WKND,7-WKND-0-1300,Fairway Station,0,1
+7,WKND,7-WKND-0-1320,Fairway Station,0,1
+7,WKND,7-WKND-0-1340,Fairway Station,0,1
+7,WKND,7-WKND-0-1400,Fairway Station,0,1
+7,WKND,7-WKND-0-1420,Fairway Station,0,1
+7,WKND,7-WKND-0-1440,Fairway Station,0,1
+7,WKND,7-WKND-0-1500,Fairway Station,0,1
+7,WKND,7-WKND-0-1520,Fairway Station,0,1
+7,WKND,7-WKND-0-1540,Fairway Station,0,1
+7,WKND,7-WKND-0-1600,Fairway Station,0,1
+7,WKND,7-WKND-0-1620,Fairway Station,0,1
+7,WKND,7-WKND-0-1640,Fairway Station,0,1
+7,WKND,7-WKND-0-1700,Fairway Station,0,1
+7,WKND,7-WKND-0-1720,Fairway Station,0,1
+7,WKND,7-WKND-0-1740,Fairway Station,0,1
+7,WKND,7-WKND-0-1800,Fairway Station,0,1
+7,WKND,7-WKND-0-1820,Fairway Station,0,1
+7,WKND,7-WKND-0-1840,Fairway Station,0,1
+7,WKND,7-WKND-0-1900,Fairway Station,0,1
+7,WKND,7-WKND-0-1920,Fairway Station,0,1
+7,WKND,7-WKND-0-1940,Fairway Station,0,1
+7,WKND,7-WKND-0-2000,Fairway Station,0,1
+7,WKND,7-WKND-0-2020,Fairway Station,0,1
+7,WKND,7-WKND-0-2040,Fairway Station,0,1
+7,WKND,7-WKND-0-2100,Fairway Station,0,1
+7,WKND,7-WKND-0-2120,Fairway Station,0,1
+7,WKND,7-WKND-0-2140,Fairway Station,0,1
+7,WKND,7-WKND-0-2200,Fairway Station,0,1
+7,WKND,7-WKND-0-2220,Fairway Station,0,1
+7,WKND,7-WKND-0-2240,Fairway Station,0,1
+7,WKND,7-WKND-0-2300,Fairway Station,0,1
+7,WKND,7-WKND-0-2320,Fairway Station,0,1
+7,WKND,7-WKND-1-0600,Conestoga Station,1,1
+7,WKND,7-WKND-1-0620,Conestoga Station,1,1
+7,WKND,7-WKND-1-0640,Conestoga Station,1,1
+7,WKND,7-WKND-1-0700,Conestoga Station,1,1
+7,WKND,7-WKND-1-0720,Conestoga Station,1,1
+7,WKND,7-WKND-1-0740,Conestoga Station,1,1
+7,WKND,7-WKND-1-0800,Conestoga Station,1,1
+7,WKND,7-WKND-1-0820,Conestoga Station,1,1
+7,WKND,7-WKND-1-0840,Conestoga Station,1,1
+7,WKND,7-WKND-1-0900,Conestoga Station,1,1
+7,WKND,7-WKND-1-0920,Conestoga Station,1,1
+7,WKND,7-WKND-1-0940,Conestoga Station,1,1
+7,WKND,7-WKND-1-1000,Conestoga Station,1,1
+7,WKND,7-WKND-1-1020,Conestoga Station,1,1
+7,WKND,7-WKND-1-1040,Conestoga Station,1,1
+7,WKND,7-WKND-1-1100,Conestoga Station,1,1
+7,WKND,7-WKND-1-1120,Conestoga Station,1,1
+7,WKND,7-WKND-1-1140,Conestoga Station,1,1
+7,WKND,7-WKND-1-1200,Conestoga Station,1,1
+7,WKND,7-WKND-1-1220,Conestoga Station,1,1
+7,WKND,7-WKND-1-1240,Conestoga Station,1,1
+7,WKND,7-WKND-1-1300,Conestoga Station,1,1
+7,WKND,7-WKND-1-1320,Conestoga Station,1,1
+7,WKND,7-WKND-1-1340,Conestoga Station,1,1
+7,WKND,7-WKND-1-1400,Conestoga Station,1,1
+7,WKND,7-WKND-1-1420,Conestoga Station,1,1
+7,WKND,7-WKND-1-1440,Conestoga Station,1,1
+7,WKND,7-WKND-1-1500,Conestoga Station,1,1
+7,WKND,7-WKND-1-1520,Conestoga Station,1,1
+7,WKND,7-WKND-1-1540,Conestoga Station,1,1
+7,WKND,7-WKND-1-1600,Conestoga Station,1,1
+7,WKND,7-WKND-1-1620,Conestoga Station,1,1
+7,WKND,7-WKND-1-1640,Conestoga Station,1,1
+7,WKND,7-WKND-1-1700,Conestoga Station,1,1
+7,WKND,7-WKND-1-1720,Conestoga Station,1,1
+7,WKND,7-WKND-1-1740,Conestoga Station,1,1
+7,WKND,7-WKND-1-1800,Conestoga Station,1,1
+7,WKND,7-WKND-1-1820,Conestoga Station,1,1
+7,WKND,7-WKND-1-1840,Conestoga Station,1,1
+7,WKND,7-WKND-1-1900,Conestoga Station,1,1
+7,WKND,7-WKND-1-1920,Conestoga Station,1,1
+7,WKND,7-WKND-1-1940,Conestoga Station,1,1
+7,WKND,7-WKND-1-2000,Conestoga Station,1,1
+7,WKND,7-WKND-1-2020,Conestoga Station,1,1
+7,WKND,7-WKND-1-2040,Conestoga Station,1,1
+7,WKND,7-WKND-1-2100,Conestoga Station,1,1
+7,WKND,7-WKND-1-2120,Conestoga Station,1,1
+7,WKND,7-WKND-1-2140,Conestoga Station,1,1
+7,WKND,7-WKND-1-2200,Conestoga Station,1,1
+7,WKND,7-WKND-1-2220,Conestoga Station,1,1
+7,WKND,7-WKND-1-2240,Conestoga Station,1,1
+7,WKND,7-WKND-1-2300,Conestoga Station,1,1
+7,WKND,7-WKND-1-2320,Conestoga Station,1,1
+201,WKDY,201-WKDY-0-0600,Conestoga,0,1
+201,WKDY,201-WKDY-0-0615,Conestoga,0,1
+201,WKDY,201-WKDY-0-0630,Conestoga,0,1
+201,WKDY,201-WKDY-0-0645,Conestoga,0,1
+201,WKDY,201-WKDY-0-0700,Conestoga,0,1
+201,WKDY,201-WKDY-0-0715,Conestoga,0,1
+201,WKDY,201-WKDY-0-0730,Conestoga,0,1
+201,WKDY,201-WKDY-0-0745,Conestoga,0,1
+201,WKDY,201-WKDY-0-0800,Conestoga,0,1
+201,WKDY,201-WKDY-0-0815,Conestoga,0,1
+201,WKDY,201-WKDY-0-0830,Conestoga,0,1
+201,WKDY,201-WKDY-0-0845,Conestoga,0,1
+201,WKDY,201-WKDY-0-0900,Conestoga,0,1
+201,WKDY,201-WKDY-0-0915,Conestoga,0,1
+201,WKDY,201-WKDY-0-0930,Conestoga,0,1
+201,WKDY,201-WKDY-0-0945,Conestoga,0,1
+201,WKDY,201-WKDY-0-1000,Conestoga,0,1
+201,WKDY,201-WKDY-0-1015,Conestoga,0,1
+201,WKDY,201-WKDY-0-1030,Conestoga,0,1
+201,WKDY,201-WKDY-0-1045,Conestoga,0,1
+201,WKDY,201-WKDY-0-1100,Conestoga,0,1
+201,WKDY,201-WKDY-0-1115,Conestoga,0,1
+201,WKDY,201-WKDY-0-1130,Conestoga,0,1
+201,WKDY,201-WKDY-0-1145,Conestoga,0,1
+201,WKDY,201-WKDY-0-1200,Conestoga,0,1
+201,WKDY,201-WKDY-0-1215,Conestoga,0,1
+201,WKDY,201-WKDY-0-1230,Conestoga,0,1
+201,WKDY,201-WKDY-0-1245,Conestoga,0,1
+201,WKDY,201-WKDY-0-1300,Conestoga,0,1
+201,WKDY,201-WKDY-0-1315,Conestoga,0,1
+201,WKDY,201-WKDY-0-1330,Conestoga,0,1
+201,WKDY,201-WKDY-0-1345,Conestoga,0,1
+201,WKDY,201-WKDY-0-1400,Conestoga,0,1
+201,WKDY,201-WKDY-0-1415,Conestoga,0,1
+201,WKDY,201-WKDY-0-1430,Conestoga,0,1
+201,WKDY,201-WKDY-0-1445,Conestoga,0,1
+201,WKDY,201-WKDY-0-1500,Conestoga,0,1
+201,WKDY,201-WKDY-0-1515,Conestoga,0,1
+201,WKDY,201-WKDY-0-1530,Conestoga,0,1
+201,WKDY,201-WKDY-0-1545,Conestoga,0,1
+201,WKDY,201-WKDY-0-1600,Conestoga,0,1
+201,WKDY,201-WKDY-0-1615,Conestoga,0,1
+201,WKDY,201-WKDY-0-1630,Conestoga,0,1
+201,WKDY,201-WKDY-0-1645,Conestoga,0,1
+201,WKDY,201-WKDY-0-1700,Conestoga,0,1
+201,WKDY,201-WKDY-0-1715,Conestoga,0,1
+201,WKDY,201-WKDY-0-1730,Conestoga,0,1
+201,WKDY,201-WKDY-0-1745,Conestoga,0,1
+201,WKDY,201-WKDY-0-1800,Conestoga,0,1
+201,WKDY,201-WKDY-0-1815,Conestoga,0,1
+201,WKDY,201-WKDY-0-1830,Conestoga,0,1
+201,WKDY,201-WKDY-0-1845,Conestoga,0,1
+201,WKDY,201-WKDY-0-1900,Conestoga,0,1
+201,WKDY,201-WKDY-0-1915,Conestoga,0,1
+201,WKDY,201-WKDY-0-1930,Conestoga,0,1
+201,WKDY,201-WKDY-0-1945,Conestoga,0,1
+201,WKDY,201-WKDY-0-2000,Conestoga,0,1
+201,WKDY,201-WKDY-0-2015,Conestoga,0,1
+201,WKDY,201-WKDY-0-2030,Conestoga,0,1
+201,WKDY,201-WKDY-0-2045,Conestoga,0,1
+201,WKDY,201-WKDY-0-2100,Conestoga,0,1
+201,WKDY,201-WKDY-0-2115,Conestoga,0,1
+201,WKDY,201-WKDY-0-2130,Conestoga,0,1
+201,WKDY,201-WKDY-0-2145,Conestoga,0,1
+201,WKDY,201-WKDY-0-2200,Conestoga,0,1
+201,WKDY,201-WKDY-0-2215,Conestoga,0,1
+201,WKDY,201-WKDY-0-2230,Conestoga,0,1
+201,WKDY,201-WKDY-0-2245,Conestoga,0,1
+201,WKDY,201-WKDY-0-2300,Conestoga,0,1
+201,WKDY,201-WKDY-0-2315,Conestoga,0,1
+201,WKDY,201-WKDY-0-2330,Conestoga,0,1
+201,WKDY,201-WKDY-1-0600,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0615,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0630,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0645,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0700,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0715,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0730,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0745,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0800,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0815,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0830,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0845,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0900,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0915,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0930,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-0945,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1000,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1015,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1030,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1045,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1100,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1115,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1130,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1145,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1200,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1215,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1230,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1245,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1300,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1315,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1330,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1345,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1400,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1415,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1430,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1445,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1500,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1515,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1530,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1545,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1600,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1615,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1630,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1645,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1700,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1715,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1730,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1745,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1800,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1815,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1830,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1845,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1900,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1915,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1930,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-1945,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2000,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2015,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2030,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2045,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2100,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2115,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2130,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2145,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2200,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2215,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2230,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2245,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2300,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2315,University of Waterloo,1,1
+201,WKDY,201-WKDY-1-2330,University of Waterloo,1,1
+201,WKND,201-WKND-0-0600,Conestoga,0,1
+201,WKND,201-WKND-0-0630,Conestoga,0,1
+201,WKND,201-WKND-0-0700,Conestoga,0,1
+201,WKND,201-WKND-0-0730,Conestoga,0,1
+201,WKND,201-WKND-0-0800,Conestoga,0,1
+201,WKND,201-WKND-0-0830,Conestoga,0,1
+201,WKND,201-WKND-0-0900,Conestoga,0,1
+201,WKND,201-WKND-0-0930,Conestoga,0,1
+201,WKND,201-WKND-0-1000,Conestoga,0,1
+201,WKND,201-WKND-0-1030,Conestoga,0,1
+201,WKND,201-WKND-0-1100,Conestoga,0,1
+201,WKND,201-WKND-0-1130,Conestoga,0,1
+201,WKND,201-WKND-0-1200,Conestoga,0,1
+201,WKND,201-WKND-0-1230,Conestoga,0,1
+201,WKND,201-WKND-0-1300,Conestoga,0,1
+201,WKND,201-WKND-0-1330,Conestoga,0,1
+201,WKND,201-WKND-0-1400,Conestoga,0,1
+201,WKND,201-WKND-0-1430,Conestoga,0,1
+201,WKND,201-WKND-0-1500,Conestoga,0,1
+201,WKND,201-WKND-0-1530,Conestoga,0,1
+201,WKND,201-WKND-0-1600,Conestoga,0,1
+201,WKND,201-WKND-0-1630,Conestoga,0,1
+201,WKND,201-WKND-0-1700,Conestoga,0,1
+201,WKND,201-WKND-0-1730,Conestoga,0,1
+201,WKND,201-WKND-0-1800,Conestoga,0,1
+201,WKND,201-WKND-0-1830,Conestoga,0,1
+201,WKND,201-WKND-0-1900,Conestoga,0,1
+201,WKND,201-WKND-0-1930,Conestoga,0,1
+201,WKND,201-WKND-0-2000,Conestoga,0,1
+201,WKND,201-WKND-0-2030,Conestoga,0,1
+201,WKND,201-WKND-0-2100,Conestoga,0,1
+201,WKND,201-WKND-0-2130,Conestoga,0,1
+201,WKND,201-WKND-0-2200,Conestoga,0,1
+201,WKND,201-WKND-0-2230,Conestoga,0,1
+201,WKND,201-WKND-0-2300,Conestoga,0,1
+201,WKND,201-WKND-0-2330,Conestoga,0,1
+201,WKND,201-WKND-1-0600,University of Waterloo,1,1
+201,WKND,201-WKND-1-0630,University of Waterloo,1,1
+201,WKND,201-WKND-1-0700,University of Waterloo,1,1
+201,WKND,201-WKND-1-0730,University of Waterloo,1,1
+201,WKND,201-WKND-1-0800,University of Waterloo,1,1
+201,WKND,201-WKND-1-0830,University of Waterloo,1,1
+201,WKND,201-WKND-1-0900,University of Waterloo,1,1
+201,WKND,201-WKND-1-0930,University of Waterloo,1,1
+201,WKND,201-WKND-1-1000,University of Waterloo,1,1
+201,WKND,201-WKND-1-1030,University of Waterloo,1,1
+201,WKND,201-WKND-1-1100,University of Waterloo,1,1
+201,WKND,201-WKND-1-1130,University of Waterloo,1,1
+201,WKND,201-WKND-1-1200,University of Waterloo,1,1
+201,WKND,201-WKND-1-1230,University of Waterloo,1,1
+201,WKND,201-WKND-1-1300,University of Waterloo,1,1
+201,WKND,201-WKND-1-1330,University of Waterloo,1,1
+201,WKND,201-WKND-1-1400,University of Waterloo,1,1
+201,WKND,201-WKND-1-1430,University of Waterloo,1,1
+201,WKND,201-WKND-1-1500,University of Waterloo,1,1
+201,WKND,201-WKND-1-1530,University of Waterloo,1,1
+201,WKND,201-WKND-1-1600,University of Waterloo,1,1
+201,WKND,201-WKND-1-1630,University of Waterloo,1,1
+201,WKND,201-WKND-1-1700,University of Waterloo,1,1
+201,WKND,201-WKND-1-1730,University of Waterloo,1,1
+201,WKND,201-WKND-1-1800,University of Waterloo,1,1
+201,WKND,201-WKND-1-1830,University of Waterloo,1,1
+201,WKND,201-WKND-1-1900,University of Waterloo,1,1
+201,WKND,201-WKND-1-1930,University of Waterloo,1,1
+201,WKND,201-WKND-1-2000,University of Waterloo,1,1
+201,WKND,201-WKND-1-2030,University of Waterloo,1,1
+201,WKND,201-WKND-1-2100,University of Waterloo,1,1
+201,WKND,201-WKND-1-2130,University of Waterloo,1,1
+201,WKND,201-WKND-1-2200,University of Waterloo,1,1
+201,WKND,201-WKND-1-2230,University of Waterloo,1,1
+201,WKND,201-WKND-1-2300,University of Waterloo,1,1
+201,WKND,201-WKND-1-2330,University of Waterloo,1,1
+301,WKDY,301-WKDY-0-0600,Fairway,0,1
+301,WKDY,301-WKDY-0-0610,Fairway,0,1
+301,WKDY,301-WKDY-0-0620,Fairway,0,1
+301,WKDY,301-WKDY-0-0630,Fairway,0,1
+301,WKDY,301-WKDY-0-0640,Fairway,0,1
+301,WKDY,301-WKDY-0-0650,Fairway,0,1
+301,WKDY,301-WKDY-0-0700,Fairway,0,1
+301,WKDY,301-WKDY-0-0710,Fairway,0,1
+301,WKDY,301-WKDY-0-0720,Fairway,0,1
+301,WKDY,301-WKDY-0-0730,Fairway,0,1
+301,WKDY,301-WKDY-0-0740,Fairway,0,1
+301,WKDY,301-WKDY-0-0750,Fairway,0,1
+301,WKDY,301-WKDY-0-0800,Fairway,0,1
+301,WKDY,301-WKDY-0-0810,Fairway,0,1
+301,WKDY,301-WKDY-0-0820,Fairway,0,1
+301,WKDY,301-WKDY-0-0830,Fairway,0,1
+301,WKDY,301-WKDY-0-0840,Fairway,0,1
+301,WKDY,301-WKDY-0-0850,Fairway,0,1
+301,WKDY,301-WKDY-0-0900,Fairway,0,1
+301,WKDY,301-WKDY-0-0910,Fairway,0,1
+301,WKDY,301-WKDY-0-0920,Fairway,0,1
+301,WKDY,301-WKDY-0-0930,Fairway,0,1
+301,WKDY,301-WKDY-0-0940,Fairway,0,1
+301,WKDY,301-WKDY-0-0950,Fairway,0,1
+301,WKDY,301-WKDY-0-1000,Fairway,0,1
+301,WKDY,301-WKDY-0-1010,Fairway,0,1
+301,WKDY,301-WKDY-0-1020,Fairway,0,1
+301,WKDY,301-WKDY-0-1030,Fairway,0,1
+301,WKDY,301-WKDY-0-1040,Fairway,0,1
+301,WKDY,301-WKDY-0-1050,Fairway,0,1
+301,WKDY,301-WKDY-0-1100,Fairway,0,1
+301,WKDY,301-WKDY-0-1110,Fairway,0,1
+301,WKDY,301-WKDY-0-1120,Fairway,0,1
+301,WKDY,301-WKDY-0-1130,Fairway,0,1
+301,WKDY,301-WKDY-0-1140,Fairway,0,1
+301,WKDY,301-WKDY-0-1150,Fairway,0,1
+301,WKDY,301-WKDY-0-1200,Fairway,0,1
+301,WKDY,301-WKDY-0-1210,Fairway,0,1
+301,WKDY,301-WKDY-0-1220,Fairway,0,1
+301,WKDY,301-WKDY-0-1230,Fairway,0,1
+301,WKDY,301-WKDY-0-1240,Fairway,0,1
+301,WKDY,301-WKDY-0-1250,Fairway,0,1
+301,WKDY,301-WKDY-0-1300,Fairway,0,1
+301,WKDY,301-WKDY-0-1310,Fairway,0,1
+301,WKDY,301-WKDY-0-1320,Fairway,0,1
+301,WKDY,301-WKDY-0-1330,Fairway,0,1
+301,WKDY,301-WKDY-0-1340,Fairway,0,1
+301,WKDY,301-WKDY-0-1350,Fairway,0,1
+301,WKDY,301-WKDY-0-1400,Fairway,0,1
+301,WKDY,301-WKDY-0-1410,Fairway,0,1
+301,WKDY,301-WKDY-0-1420,Fairway,0,1
+301,WKDY,301-WKDY-0-1430,Fairway,0,1
+301,WKDY,301-WKDY-0-1440,Fairway,0,1
+301,WKDY,301-WKDY-0-1450,Fairway,0,1
+301,WKDY,301-WKDY-0-1500,Fairway,0,1
+301,WKDY,301-WKDY-0-1510,Fairway,0,1
+301,WKDY,301-WKDY-0-1520,Fairway,0,1
+301,WKDY,301-WKDY-0-1530,Fairway,0,1
+301,WKDY,301-WKDY-0-1540,Fairway,0,1
+301,WKDY,301-WKDY-0-1550,Fairway,0,1
+301,WKDY,301-WKDY-0-1600,Fairway,0,1
+301,WKDY,301-WKDY-0-1610,Fairway,0,1
+301,WKDY,301-WKDY-0-1620,Fairway,0,1
+301,WKDY,301-WKDY-0-1630,Fairway,0,1
+301,WKDY,301-WKDY-0-1640,Fairway,0,1
+301,WKDY,301-WKDY-0-1650,Fairway,0,1
+301,WKDY,301-WKDY-0-1700,Fairway,0,1
+301,WKDY,301-WKDY-0-1710,Fairway,0,1
+301,WKDY,301-WKDY-0-1720,Fairway,0,1
+301,WKDY,301-WKDY-0-1730,Fairway,0,1
+301,WKDY,301-WKDY-0-1740,Fairway,0,1
+301,WKDY,301-WKDY-0-1750,Fairway,0,1
+301,WKDY,301-WKDY-0-1800,Fairway,0,1
+301,WKDY,301-WKDY-0-1810,Fairway,0,1
+301,WKDY,301-WKDY-0-1820,Fairway,0,1
+301,WKDY,301-WKDY-0-1830,Fairway,0,1
+301,WKDY,301-WKDY-0-1840,Fairway,0,1
+301,WKDY,301-WKDY-0-1850,Fairway,0,1
+301,WKDY,301-WKDY-0-1900,Fairway,0,1
+301,WKDY,301-WKDY-0-1910,Fairway,0,1
+301,WKDY,301-WKDY-0-1920,Fairway,0,1
+301,WKDY,301-WKDY-0-1930,Fairway,0,1
+301,WKDY,301-WKDY-0-1940,Fairway,0,1
+301,WKDY,301-WKDY-0-1950,Fairway,0,1
+301,WKDY,301-WKDY-0-2000,Fairway,0,1
+301,WKDY,301-WKDY-0-2010,Fairway,0,1
+301,WKDY,301-WKDY-0-2020,Fairway,0,1
+301,WKDY,301-WKDY-0-2030,Fairway,0,1
+301,WKDY,301-WKDY-0-2040,Fairway,0,1
+301,WKDY,301-WKDY-0-2050,Fairway,0,1
+301,WKDY,301-WKDY-0-2100,Fairway,0,1
+301,WKDY,301-WKDY-0-2110,Fairway,0,1
+301,WKDY,301-WKDY-0-2120,Fairway,0,1
+301,WKDY,301-WKDY-0-2130,Fairway,0,1
+301,WKDY,301-WKDY-0-2140,Fairway,0,1
+301,WKDY,301-WKDY-0-2150,Fairway,0,1
+301,WKDY,301-WKDY-0-2200,Fairway,0,1
+301,WKDY,301-WKDY-0-2210,Fairway,0,1
+301,WKDY,301-WKDY-0-2220,Fairway,0,1
+301,WKDY,301-WKDY-0-2230,Fairway,0,1
+301,WKDY,301-WKDY-0-2240,Fairway,0,1
+301,WKDY,301-WKDY-0-2250,Fairway,0,1
+301,WKDY,301-WKDY-0-2300,Fairway,0,1
+301,WKDY,301-WKDY-0-2310,Fairway,0,1
+301,WKDY,301-WKDY-0-2320,Fairway,0,1
+301,WKDY,301-WKDY-0-2330,Fairway,0,1
+301,WKDY,301-WKDY-1-0600,Conestoga,1,1
+301,WKDY,301-WKDY-1-0610,Conestoga,1,1
+301,WKDY,301-WKDY-1-0620,Conestoga,1,1
+301,WKDY,301-WKDY-1-0630,Conestoga,1,1
+301,WKDY,301-WKDY-1-0640,Conestoga,1,1
+301,WKDY,301-WKDY-1-0650,Conestoga,1,1
+301,WKDY,301-WKDY-1-0700,Conestoga,1,1
+301,WKDY,301-WKDY-1-0710,Conestoga,1,1
+301,WKDY,301-WKDY-1-0720,Conestoga,1,1
+301,WKDY,301-WKDY-1-0730,Conestoga,1,1
+301,WKDY,301-WKDY-1-0740,Conestoga,1,1
+301,WKDY,301-WKDY-1-0750,Conestoga,1,1
+301,WKDY,301-WKDY-1-0800,Conestoga,1,1
+301,WKDY,301-WKDY-1-0810,Conestoga,1,1
+301,WKDY,301-WKDY-1-0820,Conestoga,1,1
+301,WKDY,301-WKDY-1-0830,Conestoga,1,1
+301,WKDY,301-WKDY-1-0840,Conestoga,1,1
+301,WKDY,301-WKDY-1-0850,Conestoga,1,1
+301,WKDY,301-WKDY-1-0900,Conestoga,1,1
+301,WKDY,301-WKDY-1-0910,Conestoga,1,1
+301,WKDY,301-WKDY-1-0920,Conestoga,1,1
+301,WKDY,301-WKDY-1-0930,Conestoga,1,1
+301,WKDY,301-WKDY-1-0940,Conestoga,1,1
+301,WKDY,301-WKDY-1-0950,Conestoga,1,1
+301,WKDY,301-WKDY-1-1000,Conestoga,1,1
+301,WKDY,301-WKDY-1-1010,Conestoga,1,1
+301,WKDY,301-WKDY-1-1020,Conestoga,1,1
+301,WKDY,301-WKDY-1-1030,Conestoga,1,1
+301,WKDY,301-WKDY-1-1040,Conestoga,1,1
+301,WKDY,301-WKDY-1-1050,Conestoga,1,1
+301,WKDY,301-WKDY-1-1100,Conestoga,1,1
+301,WKDY,301-WKDY-1-1110,Conestoga,1,1
+301,WKDY,301-WKDY-1-1120,Conestoga,1,1
+301,WKDY,301-WKDY-1-1130,Conestoga,1,1
+301,WKDY,301-WKDY-1-1140,Conestoga,1,1
+301,WKDY,301-WKDY-1-1150,Conestoga,1,1
+301,WKDY,301-WKDY-1-1200,Conestoga,1,1
+301,WKDY,301-WKDY-1-1210,Conestoga,1,1
+301,WKDY,301-WKDY-1-1220,Conestoga,1,1
+301,WKDY,301-WKDY-1-1230,Conestoga,1,1
+301,WKDY,301-WKDY-1-1240,Conestoga,1,1
+301,WKDY,301-WKDY-1-1250,Conestoga,1,1
+301,WKDY,301-WKDY-1-1300,Conestoga,1,1
+301,WKDY,301-WKDY-1-1310,Conestoga,1,1
+301,WKDY,301-WKDY-1-1320,Conestoga,1,1
+301,WKDY,301-WKDY-1-1330,Conestoga,1,1
+301,WKDY,301-WKDY-1-1340,Conestoga,1,1
+301,WKDY,301-WKDY-1-1350,Conestoga,1,1
+301,WKDY,301-WKDY-1-1400,Conestoga,1,1
+301,WKDY,301-WKDY-1-1410,Conestoga,1,1
+301,WKDY,301-WKDY-1-1420,Conestoga,1,1
+301,WKDY,301-WKDY-1-1430,Conestoga,1,1
+301,WKDY,301-WKDY-1-1440,Conestoga,1,1
+301,WKDY,301-WKDY-1-1450,Conestoga,1,1
+301,WKDY,301-WKDY-1-1500,Conestoga,1,1
+301,WKDY,301-WKDY-1-1510,Conestoga,1,1
+301,WKDY,301-WKDY-1-1520,Conestoga,1,1
+301,WKDY,301-WKDY-1-1530,Conestoga,1,1
+301,WKDY,301-WKDY-1-1540,Conestoga,1,1
+301,WKDY,301-WKDY-1-1550,Conestoga,1,1
+301,WKDY,301-WKDY-1-1600,Conestoga,1,1
+301,WKDY,301-WKDY-1-1610,Conestoga,1,1
+301,WKDY,301-WKDY-1-1620,Conestoga,1,1
+301,WKDY,301-WKDY-1-1630,Conestoga,1,1
+301,WKDY,301-WKDY-1-1640,Conestoga,1,1
+301,WKDY,301-WKDY-1-1650,Conestoga,1,1
+301,WKDY,301-WKDY-1-1700,Conestoga,1,1
+301,WKDY,301-WKDY-1-1710,Conestoga,1,1
+301,WKDY,301-WKDY-1-1720,Conestoga,1,1
+301,WKDY,301-WKDY-1-1730,Conestoga,1,1
+301,WKDY,301-WKDY-1-1740,Conestoga,1,1
+301,WKDY,301-WKDY-1-1750,Conestoga,1,1
+301,WKDY,301-WKDY-1-1800,Conestoga,1,1
+301,WKDY,301-WKDY-1-1810,Conestoga,1,1
+301,WKDY,301-WKDY-1-1820,Conestoga,1,1
+301,WKDY,301-WKDY-1-1830,Conestoga,1,1
+301,WKDY,301-WKDY-1-1840,Conestoga,1,1
+301,WKDY,301-WKDY-1-1850,Conestoga,1,1
+301,WKDY,301-WKDY-1-1900,Conestoga,1,1
+301,WKDY,301-WKDY-1-1910,Conestoga,1,1
+301,WKDY,301-WKDY-1-1920,Conestoga,1,1
+301,WKDY,301-WKDY-1-1930,Conestoga,1,1
+301,WKDY,301-WKDY-1-1940,Conestoga,1,1
+301,WKDY,301-WKDY-1-1950,Conestoga,1,1
+301,WKDY,301-WKDY-1-2000,Conestoga,1,1
+301,WKDY,301-WKDY-1-2010,Conestoga,1,1
+301,WKDY,301-WKDY-1-2020,Conestoga,1,1
+301,WKDY,301-WKDY-1-2030,Conestoga,1,1
+301,WKDY,301-WKDY-1-2040,Conestoga,1,1
+301,WKDY,301-WKDY-1-2050,Conestoga,1,1
+301,WKDY,301-WKDY-1-2100,Conestoga,1,1
+301,WKDY,301-WKDY-1-2110,Conestoga,1,1
+301,WKDY,301-WKDY-1-2120,Conestoga,1,1
+301,WKDY,301-WKDY-1-2130,Conestoga,1,1
+301,WKDY,301-WKDY-1-2140,Conestoga,1,1
+301,WKDY,301-WKDY-1-2150,Conestoga,1,1
+301,WKDY,301-WKDY-1-2200,Conestoga,1,1
+301,WKDY,301-WKDY-1-2210,Conestoga,1,1
+301,WKDY,301-WKDY-1-2220,Conestoga,1,1
+301,WKDY,301-WKDY-1-2230,Conestoga,1,1
+301,WKDY,301-WKDY-1-2240,Conestoga,1,1
+301,WKDY,301-WKDY-1-2250,Conestoga,1,1
+301,WKDY,301-WKDY-1-2300,Conestoga,1,1
+301,WKDY,301-WKDY-1-2310,Conestoga,1,1
+301,WKDY,301-WKDY-1-2320,Conestoga,1,1
+301,WKDY,301-WKDY-1-2330,Conestoga,1,1
+301,WKND,301-WKND-0-0600,Fairway,0,1
+301,WKND,301-WKND-0-0620,Fairway,0,1
+301,WKND,301-WKND-0-0640,Fairway,0,1
+301,WKND,301-WKND-0-0700,Fairway,0,1
+301,WKND,301-WKND-0-0720,Fairway,0,1
+301,WKND,301-WKND-0-0740,Fairway,0,1
+301,WKND,301-WKND-0-0800,Fairway,0,1
+301,WKND,301-WKND-0-0820,Fairway,0,1
+301,WKND,301-WKND-0-0840,Fairway,0,1
+301,WKND,301-WKND-0-0900,Fairway,0,1
+301,WKND,301-WKND-0-0920,Fairway,0,1
+301,WKND,301-WKND-0-0940,Fairway,0,1
+301,WKND,301-WKND-0-1000,Fairway,0,1
+301,WKND,301-WKND-0-1020,Fairway,0,1
+301,WKND,301-WKND-0-1040,Fairway,0,1
+301,WKND,301-WKND-0-1100,Fairway,0,1
+301,WKND,301-WKND-0-1120,Fairway,0,1
+301,WKND,301-WKND-0-1140,Fairway,0,1
+301,WKND,301-WKND-0-1200,Fairway,0,1
+301,WKND,301-WKND-0-1220,Fairway,0,1
+301,WKND,301-WKND-0-1240,Fairway,0,1
+301,WKND,301-WKND-0-1300,Fairway,0,1
+301,WKND,301-WKND-0-1320,Fairway,0,1
+301,WKND,301-WKND-0-1340,Fairway,0,1
+301,WKND,301-WKND-0-1400,Fairway,0,1
+301,WKND,301-WKND-0-1420,Fairway,0,1
+301,WKND,301-WKND-0-1440,Fairway,0,1
+301,WKND,301-WKND-0-1500,Fairway,0,1
+301,WKND,301-WKND-0-1520,Fairway,0,1
+301,WKND,301-WKND-0-1540,Fairway,0,1
+301,WKND,301-WKND-0-1600,Fairway,0,1
+301,WKND,301-WKND-0-1620,Fairway,0,1
+301,WKND,301-WKND-0-1640,Fairway,0,1
+301,WKND,301-WKND-0-1700,Fairway,0,1
+301,WKND,301-WKND-0-1720,Fairway,0,1
+301,WKND,301-WKND-0-1740,Fairway,0,1
+301,WKND,301-WKND-0-1800,Fairway,0,1
+301,WKND,301-WKND-0-1820,Fairway,0,1
+301,WKND,301-WKND-0-1840,Fairway,0,1
+301,WKND,301-WKND-0-1900,Fairway,0,1
+301,WKND,301-WKND-0-1920,Fairway,0,1
+301,WKND,301-WKND-0-1940,Fairway,0,1
+301,WKND,301-WKND-0-2000,Fairway,0,1
+301,WKND,301-WKND-0-2020,Fairway,0,1
+301,WKND,301-WKND-0-2040,Fairway,0,1
+301,WKND,301-WKND-0-2100,Fairway,0,1
+301,WKND,301-WKND-0-2120,Fairway,0,1
+301,WKND,301-WKND-0-2140,Fairway,0,1
+301,WKND,301-WKND-0-2200,Fairway,0,1
+301,WKND,301-WKND-0-2220,Fairway,0,1
+301,WKND,301-WKND-0-2240,Fairway,0,1
+301,WKND,301-WKND-0-2300,Fairway,0,1
+301,WKND,301-WKND-0-2320,Fairway,0,1
+301,WKND,301-WKND-1-0600,Conestoga,1,1
+301,WKND,301-WKND-1-0620,Conestoga,1,1
+301,WKND,301-WKND-1-0640,Conestoga,1,1
+301,WKND,301-WKND-1-0700,Conestoga,1,1
+301,WKND,301-WKND-1-0720,Conestoga,1,1
+301,WKND,301-WKND-1-0740,Conestoga,1,1
+301,WKND,301-WKND-1-0800,Conestoga,1,1
+301,WKND,301-WKND-1-0820,Conestoga,1,1
+301,WKND,301-WKND-1-0840,Conestoga,1,1
+301,WKND,301-WKND-1-0900,Conestoga,1,1
+301,WKND,301-WKND-1-0920,Conestoga,1,1
+301,WKND,301-WKND-1-0940,Conestoga,1,1
+301,WKND,301-WKND-1-1000,Conestoga,1,1
+301,WKND,301-WKND-1-1020,Conestoga,1,1
+301,WKND,301-WKND-1-1040,Conestoga,1,1
+301,WKND,301-WKND-1-1100,Conestoga,1,1
+301,WKND,301-WKND-1-1120,Conestoga,1,1
+301,WKND,301-WKND-1-1140,Conestoga,1,1
+301,WKND,301-WKND-1-1200,Conestoga,1,1
+301,WKND,301-WKND-1-1220,Conestoga,1,1
+301,WKND,301-WKND-1-1240,Conestoga,1,1
+301,WKND,301-WKND-1-1300,Conestoga,1,1
+301,WKND,301-WKND-1-1320,Conestoga,1,1
+301,WKND,301-WKND-1-1340,Conestoga,1,1
+301,WKND,301-WKND-1-1400,Conestoga,1,1
+301,WKND,301-WKND-1-1420,Conestoga,1,1
+301,WKND,301-WKND-1-1440,Conestoga,1,1
+301,WKND,301-WKND-1-1500,Conestoga,1,1
+301,WKND,301-WKND-1-1520,Conestoga,1,1
+301,WKND,301-WKND-1-1540,Conestoga,1,1
+301,WKND,301-WKND-1-1600,Conestoga,1,1
+301,WKND,301-WKND-1-1620,Conestoga,1,1
+301,WKND,301-WKND-1-1640,Conestoga,1,1
+301,WKND,301-WKND-1-1700,Conestoga,1,1
+301,WKND,301-WKND-1-1720,Conestoga,1,1
+301,WKND,301-WKND-1-1740,Conestoga,1,1
+301,WKND,301-WKND-1-1800,Conestoga,1,1
+301,WKND,301-WKND-1-1820,Conestoga,1,1
+301,WKND,301-WKND-1-1840,Conestoga,1,1
+301,WKND,301-WKND-1-1900,Conestoga,1,1
+301,WKND,301-WKND-1-1920,Conestoga,1,1
+301,WKND,301-WKND-1-1940,Conestoga,1,1
+301,WKND,301-WKND-1-2000,Conestoga,1,1
+301,WKND,301-WKND-1-2020,Conestoga,1,1
+301,WKND,301-WKND-1-2040,Conestoga,1,1
+301,WKND,301-WKND-1-2100,Conestoga,1,1
+301,WKND,301-WKND-1-2120,Conestoga,1,1
+301,WKND,301-WKND-1-2140,Conestoga,1,1
+301,WKND,301-WKND-1-2200,Conestoga,1,1
+301,WKND,301-WKND-1-2220,Conestoga,1,1
+301,WKND,301-WKND-1-2240,Conestoga,1,1
+301,WKND,301-WKND-1-2300,Conestoga,1,1
+301,WKND,301-WKND-1-2320,Conestoga,1,1
+9,WKDY,9-WKDY-0-0600,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0630,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0700,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0730,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0800,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0830,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0900,Lakeshore,0,1
+9,WKDY,9-WKDY-0-0930,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1000,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1030,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1100,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1130,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1200,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1230,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1300,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1330,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1400,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1430,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1500,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1530,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1600,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1630,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1700,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1730,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1800,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1830,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1900,Lakeshore,0,1
+9,WKDY,9-WKDY-0-1930,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2000,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2030,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2100,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2130,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2200,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2230,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2300,Lakeshore,0,1
+9,WKDY,9-WKDY-0-2330,Lakeshore,0,1
+9,WKDY,9-WKDY-1-0600,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0630,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0700,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0730,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0800,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0830,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0900,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-0930,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1000,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1030,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1100,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1130,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1200,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1230,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1300,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1330,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1400,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1430,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1500,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1530,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1600,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1630,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1700,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1730,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1800,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1830,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1900,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-1930,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2000,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2030,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2100,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2130,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2200,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2230,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2300,Waterloo Public Square,1,1
+9,WKDY,9-WKDY-1-2330,Waterloo Public Square,1,1
+9,WKND,9-WKND-0-0600,Lakeshore,0,1
+9,WKND,9-WKND-0-0700,Lakeshore,0,1
+9,WKND,9-WKND-0-0800,Lakeshore,0,1
+9,WKND,9-WKND-0-0900,Lakeshore,0,1
+9,WKND,9-WKND-0-1000,Lakeshore,0,1
+9,WKND,9-WKND-0-1100,Lakeshore,0,1
+9,WKND,9-WKND-0-1200,Lakeshore,0,1
+9,WKND,9-WKND-0-1300,Lakeshore,0,1
+9,WKND,9-WKND-0-1400,Lakeshore,0,1
+9,WKND,9-WKND-0-1500,Lakeshore,0,1
+9,WKND,9-WKND-0-1600,Lakeshore,0,1
+9,WKND,9-WKND-0-1700,Lakeshore,0,1
+9,WKND,9-WKND-0-1800,Lakeshore,0,1
+9,WKND,9-WKND-0-1900,Lakeshore,0,1
+9,WKND,9-WKND-0-2000,Lakeshore,0,1
+9,WKND,9-WKND-0-2100,Lakeshore,0,1
+9,WKND,9-WKND-0-2200,Lakeshore,0,1
+9,WKND,9-WKND-0-2300,Lakeshore,0,1
+9,WKND,9-WKND-1-0600,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-0700,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-0800,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-0900,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1000,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1100,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1200,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1300,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1400,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1500,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1600,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1700,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1800,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-1900,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-2000,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-2100,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-2200,Waterloo Public Square,1,1
+9,WKND,9-WKND-1-2300,Waterloo Public Square,1,1
