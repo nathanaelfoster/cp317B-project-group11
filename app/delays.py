@@ -31,7 +31,7 @@ def compute_delay_seconds(scheduled: datetime, recorded: datetime) -> int:
     TODO(REP-1): subtract the two datetimes and return whole seconds.
     Example: scheduled 2:10:00 PM, recorded 2:14:00 PM -> 240.
     """
-    raise NotImplementedError("REP-1: compute_delay_seconds")
+    return int((recorded - scheduled).total_seconds())
 
 
 def delay_minutes(delay_seconds: int) -> float:
@@ -45,7 +45,11 @@ def classify(delay_seconds: int) -> str:
     Both edges count as on time: -60 -> "On time", -61 -> "Early",
     300 -> "On time", 301 -> "Late".
     """
-    raise NotImplementedError("REP-1: classify")
+    if delay_seconds < ON_TIME_EARLIEST_SECONDS:
+        return "Early"
+    if delay_seconds > ON_TIME_LATEST_SECONDS:
+        return "Late"
+    return "On time"
 
 
 def status_label(delay_seconds, cancelled=False) -> str:
@@ -58,7 +62,15 @@ def status_label(delay_seconds, cancelled=False) -> str:
       "Late 7 min" / "Early 3 min" otherwise, with minutes = round(abs(seconds) / 60),
                              never less than 1
     """
-    raise NotImplementedError("REP-1: status_label")
+    if cancelled:
+        return "Cancelled"
+    if delay_seconds is None:
+        return "Scheduled"
+    status = classify(delay_seconds)
+    if status == "On time":
+        return status
+    minutes = max(1, round(abs(delay_seconds) / 60))
+    return f"{status} {minutes} min"
 
 
 def summarize(delays: list) -> dict:
@@ -71,4 +83,13 @@ def summarize(delays: list) -> dict:
       avg_delay_min  mean delay in minutes via delay_minutes() (None when no trips)
     UI-1 (app/reliability.py) uses this to build its report.
     """
-    raise NotImplementedError("REP-1: summarize")
+    trips = len(delays)
+    if trips == 0:
+        return {"trips": 0, "on_time": 0, "on_time_pct": None, "avg_delay_min": None}
+    on_time = sum(1 for d in delays if classify(d) == "On time")
+    return {
+        "trips": trips,
+        "on_time": on_time,
+        "on_time_pct": round(100 * on_time / trips),
+        "avg_delay_min": delay_minutes(sum(delays) / trips),
+    }
