@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will I Make It?</title>
+  <link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="phone">
+    <div id="data-banner" class="banner" role="status" hidden></div>
+    <main id="main" tabindex="-1">
+
+      <!-- Screen 1: Map home (UI-2) -->
+      <section id="screen-map" class="screen" aria-labelledby="map-title">
+        <h1 id="map-title">Will I Make It?</h1>
+        <label for="search" class="field-label">Search for a stop or route</label>
+        <input id="search" type="search" placeholder="Stop name, stop number or route" autocomplete="off">
+        <label class="checkbox">
+          <input id="accessible-only" type="checkbox"> Show accessible stops only
+        </label>
+        <div id="map" role="region" aria-label="Interactive map of bus and ION stops"></div>
+        <h2>Nearby stops</h2>
+        <ul id="stop-list" class="card-list" aria-live="polite"></ul>
+      </section>
+
+      <!-- Screen 2: Stop detail (UI-3 live arrivals + alerts, UI-1 reliability) -->
+      <section id="screen-stop" class="screen" hidden aria-labelledby="stop-title">
+        <button id="back" class="link-button" type="button">&lsaquo; Back to map</button>
+        <h1 id="stop-title"></h1>
+        <div id="stop-badges" class="badges"></div>
+        <div id="stop-alerts"></div>
+
+        <div class="section-head">
+          <h2>Next arrivals <span id="live-tag" class="tag"></span></h2>
+          <span id="updated-at" class="muted small"></span>
+        </div>
+        <p id="arrivals-notice" class="notice" hidden></p>
+        <ul id="arrivals" class="arrivals" aria-live="polite"></ul>
+
+        <h2>Usual reliability here</h2>
+        <div class="filters">
+          <label>Day <select id="filter-day"></select></label>
+          <label>Time <select id="filter-time"></select></label>
+        </div>
+        <p id="reliability-caption" class="muted small"></p>
+        <ul id="reliability" class="reliability"></ul>
+
+        <button class="primary" type="button" data-tab="transfers">Check a transfer from here</button>
+        <button class="secondary" type="button" data-tab="report">Report a barrier at this stop</button>
+      </section>
+
+      <section id="screen-transfers" class="screen" hidden aria-labelledby="transfers-title">
+        <h1 id="transfers-title">Transfer check</h1>
+        <p class="muted">Coming in Sprint 2: see how often you would make a connection.</p>
+      </section>
+      <section id="screen-report" class="screen" hidden aria-labelledby="report-title">
+        <h1 id="report-title">Report a barrier</h1>
+        <p class="muted">Coming in a later sprint. Sign-in will be required to submit reports.</p>
+      </section>
+      <section id="screen-profile" class="screen" hidden aria-labelledby="profile-title">
+        <h1 id="profile-title">Accessibility profile</h1>
+        <p class="muted">Coming in a later sprint. Creating a profile will always be optional.</p>
+      </section>
+    </main>
+
+    <nav class="tabbar" aria-label="Main">
+      <button type="button" data-tab="map" aria-current="page">Map</button>
+      <button type="button" data-tab="transfers">Transfers</button>
+      <button type="button" data-tab="report">Report</button>
+      <button type="button" data-tab="profile">Profile</button>
+    </nav>
+  </div>
+
+  <script src="/static/vendor/leaflet/leaflet.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
