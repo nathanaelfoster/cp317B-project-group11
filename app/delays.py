@@ -63,60 +63,26 @@ def classify(delay_seconds: int) -> str:
 
 
 def status_label(delay_seconds, cancelled=False) -> str:
-    """Text label riders see, e.g. "Late 7 min".
+    """Text label for riders. Status never relies on colour alone (accessibility NFR).
 
-    Statuses are words, not just colours, so colour-blind and screen-reader
-    users can understand them (accessibility requirement).
+    TODO(REP-1): return
+      "Cancelled"            if cancelled is True
+      "Scheduled"            if delay_seconds is None (no live data)
+      "On time"              if classify() says on time
+      "Late 7 min" / "Early 3 min" otherwise, with minutes = round(abs(seconds) / 60),
+                             never less than 1
     """
-    # 1. A cancelled trip has no arrival time at all, so check this first.
-    if cancelled:
-        return "Cancelled"
-
-    # 2. None means we have no live data for this bus, so we can only show
-    #    the timetable time.
-    if delay_seconds is None:
-        return "Scheduled"
-
-    # 3. Use classify() so the on-time rule lives in one place only.
-    status = classify(delay_seconds)
-    if status == "On time":
-        return status
-
-    # 4. Early or late: add how many minutes.
-    #    abs() removes the minus sign (early delays are negative), round()
-    #    gives whole minutes, and max(1, ...) makes sure we never say "0 min"
-    #    for something that is technically early or late.
-    minutes = max(1, round(abs(delay_seconds) / 60))
-    return f"{status} {minutes} min"  # e.g. "Late 7 min" or "Early 3 min"
+    raise NotImplementedError("REP-1: status_label")
 
 
 def summarize(delays: list) -> dict:
     """Average delay and on-time percentage for a list of delays in seconds.
 
-    Returns a dict with:
-      trips          how many delays were given
-      on_time        how many of them count as "On time"
+    TODO(REP-1): return a dict with these keys:
+      trips          number of delays
+      on_time        how many classify() as "On time"
       on_time_pct    whole-number percentage, e.g. 75 (None when there are no trips)
-      avg_delay_min  average delay in minutes (None when there are no trips)
-
+      avg_delay_min  mean delay in minutes via delay_minutes() (None when no trips)
     UI-1 (app/reliability.py) uses this to build its report.
     """
-    trips = len(delays)
-
-    # No data: return None for the averages instead of dividing by zero.
-    # The UI shows this as "no data yet" rather than a misleading 0%.
-    if trips == 0:
-        return {"trips": 0, "on_time": 0, "on_time_pct": None, "avg_delay_min": None}
-
-    # Count how many delays classify as on time.
-    # (sum of 1 for every on-time delay = the number of on-time delays)
-    on_time = sum(1 for d in delays if classify(d) == "On time")
-
-    return {
-        "trips": trips,
-        "on_time": on_time,
-        # e.g. 3 on time out of 4 -> 100 * 3 / 4 = 75
-        "on_time_pct": round(100 * on_time / trips),
-        # Average = total seconds / number of trips, then converted to minutes.
-        "avg_delay_min": delay_minutes(sum(delays) / trips),
-    }
+    raise NotImplementedError("REP-1: summarize")
