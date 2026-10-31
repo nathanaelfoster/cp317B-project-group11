@@ -65,24 +65,50 @@ def classify(delay_seconds: int) -> str:
 def status_label(delay_seconds, cancelled=False) -> str:
     """Text label for riders. Status never relies on colour alone (accessibility NFR).
 
-    TODO(REP-1): return
-      "Cancelled"            if cancelled is True
-      "Scheduled"            if delay_seconds is None (no live data)
-      "On time"              if classify() says on time
-      "Late 7 min" / "Early 3 min" otherwise, with minutes = round(abs(seconds) / 60),
-                             never less than 1
+    Returns "Cancelled", "Scheduled" (no live data), "On time", or
+    "Late 7 min" / "Early 3 min" with minutes = round(abs(seconds) / 60), never less than 1.
     """
-    raise NotImplementedError("REP-1: status_label")
+    # A cancelled trip is cancelled no matter what its delay says, so check it first.
+    if cancelled:
+        return "Cancelled"
+
+    # No delay means we have no live data for this trip, only the schedule.
+    if delay_seconds is None:
+        return "Scheduled"
+
+    status = classify(delay_seconds)
+    if status == "On time":
+        return "On time"
+
+    # abs() drops the minus sign so early trips show "Early 3 min", not "Early -3 min".
+    # max(1, ...) stops a short delay like 61 seconds early from rounding to "0 min".
+    minutes = max(1, round(abs(delay_seconds) / 60))
+    return f"{status} {minutes} min"
 
 
 def summarize(delays: list) -> dict:
     """Average delay and on-time percentage for a list of delays in seconds.
 
-    TODO(REP-1): return a dict with these keys:
+    Returns a dict with these keys:
       trips          number of delays
       on_time        how many classify() as "On time"
       on_time_pct    whole-number percentage, e.g. 75 (None when there are no trips)
       avg_delay_min  mean delay in minutes via delay_minutes() (None when no trips)
     UI-1 (app/reliability.py) uses this to build its report.
     """
-    raise NotImplementedError("REP-1: summarize")
+    trips = len(delays)
+
+    # Count the delays that land inside the on-time window.
+    on_time = sum(1 for d in delays if classify(d) == "On time")
+
+    # With no trips there is nothing to average, and dividing by zero would crash,
+    # so we report None and let the screen show that there is no data.
+    if trips == 0:
+        return {"trips": 0, "on_time": 0, "on_time_pct": None, "avg_delay_min": None}
+
+    return {
+        "trips": trips,
+        "on_time": on_time,
+        "on_time_pct": round(on_time / trips * 100),
+        "avg_delay_min": delay_minutes(sum(delays) / trips),
+    }
