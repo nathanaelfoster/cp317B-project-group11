@@ -24,11 +24,11 @@ SAMPLE_GTFS_DIR = BASE_DIR / "data" / "sample_gtfs"
 # GRT open data endpoints. Check the current URLs on the Region of Waterloo open
 # data portal before running in live mode; they can be overridden here.
 GRT_STATIC_URL = os.environ.get(
-    "GRT_STATIC_URL", "https://www.regionofwaterloo.ca/opendatadownloads/GRT_GTFS.zip"
+    "GRT_STATIC_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/staticfeeds/1"
 )
 GRT_TRIP_UPDATES_URL = os.environ.get(
     "GRT_TRIP_UPDATES_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/tripupdates"
 )
 GRT_ALERTS_URL = os.environ.get(
-    "GRT_ALERTS_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/alerts"
+    "GRT_TRIP_UPDATES_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/tripupdates/1"
 )
