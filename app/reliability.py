@@ -9,26 +9,45 @@ MIN_TRIPS_FOR_CONFIDENCE = 10
 
 
 def _filters(day, time_of_day):
-    """SQL conditions and parameters for the day-of-week and time-of-day filters.
+    
+    clauses = []
+    params = []
 
-    TODO(UI-1): return (clauses, params) where clauses is a list of SQL
-    strings that get ANDed into the query in _report() below, and params are
-    their ? values in order.
+    # Filter by day of week
+    if day not in (None, "all"):
+        day_groups = {
+            key: weekdays
+            for key, _, weekdays in delays.DAY_OF_WEEK
+        }
 
-      day          "all", or a key from delays.DAY_OF_WEEK ("weekday", "saturday", "sunday").
-                   Filter on tu.service_dow (0 = Monday ... 6 = Sunday).
-      time_of_day  "all", or a key from delays.TIME_OF_DAY ("early", "am_peak", ...).
-                   Filter on tu.scheduled_secs (seconds after midnight) using the
-                   start hour (inclusive) and end hour (exclusive).
+        if day not in day_groups:
+            raise ValueError(f"Unknown day filter: {day}")
 
-    "all" (or None) means no condition. Raise ValueError for an unknown key;
-    the API turns that into a 400 error.
+        weekdays = day_groups[day]
+        placeholders = ", ".join("?" for _ in weekdays)
 
-    Example: _filters("weekday", "am_peak") could return
-      (["tu.service_dow IN (?,?,?,?,?)", "tu.scheduled_secs >= ? AND tu.scheduled_secs < ?"],
-       [0, 1, 2, 3, 4, 25200, 36000])
-    """
-    raise NotImplementedError("UI-1: _filters")
+        clauses.append(f"tu.service_dow IN ({placeholders})")
+        params.extend(weekdays)
+
+    # Filter by time of day
+    if time_of_day not in (None, "all"):
+        periods = {
+            key: (start, end)
+            for key, _, start, end in delays.TIME_OF_DAY
+        }
+
+        if time_of_day not in periods:
+            raise ValueError(f"Unknown time-of-day filter: {time_of_day}")
+
+        start_hour, end_hour = periods[time_of_day]
+
+        clauses.append(
+            "tu.scheduled_secs >= ? AND tu.scheduled_secs < ?"
+        )
+        params.extend((start_hour * 3600, end_hour * 3600))
+
+    return clauses, params
+
 
 
 def _report(conn, where, params, day, time_of_day):
