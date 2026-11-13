@@ -61,7 +61,33 @@
 
       <section id="screen-transfers" class="screen" hidden aria-labelledby="transfers-title">
         <h1 id="transfers-title">Transfer check</h1>
-        <p class="muted">Coming in Sprint 2: see how often you would make a connection.</p>
+        <p class="muted small">See how often a connection would have worked, based on recorded arrivals.</p>
+        <form id="transfer-form" class="stack">
+          <label>Transfer stop <select id="transfer-stop" required></select></label>
+          <label>I arrive on <select id="transfer-from" required></select></label>
+          <label>And want to catch <select id="transfer-to" required></select></label>
+          <label>Time I need to get between buses
+            <select id="transfer-buffer">
+              <option value="0">No extra time</option>
+              <option value="1">1 minute</option>
+              <option value="2" selected>2 minutes</option>
+              <option value="3">3 minutes</option>
+              <option value="5">5 minutes</option>
+              <option value="8">8 minutes</option>
+              <option value="10">10 minutes</option>
+            </select>
+          </label>
+          <div class="filters">
+            <label>Day <select id="transfer-day"></select></label>
+            <label>Time <select id="transfer-time"></select></label>
+          </div>
+          <label class="checkbox small">
+            <input id="transfer-accessible-only" type="checkbox" data-accessible-toggle>
+            Accessible buses only
+          </label>
+          <button class="primary" type="submit">Check this transfer</button>
+        </form>
+        <div id="transfer-result" class="result" aria-live="polite" hidden></div>
       </section>
       <section id="screen-report" class="screen" hidden aria-labelledby="report-title">
         <h1 id="report-title">Report a barrier</h1>
@@ -95,6 +121,7 @@
 
   <script src="/static/vendor/leaflet/leaflet.js"></script>
   <script src="/static/app.js"></script>
+  <script src="/static/transfers.js"></script>
   <script src="/static/profile.js"></script>
 </body>
 </html>
