@@ -1,9 +1,10 @@
 // Will I Make It? rider screens: Map home (UI-2) and Stop detail (UI-3, UI-1).
 const REFRESH_MS = 30000; // UI-3: refresh live arrivals within 30 seconds
 
-const state = { stops: [], map: null, markers: {}, currentStop: null, refreshTimer: null };
-const $ = (id) => document.getElementById(id);
+const state = { stops: [], map: null, markers: {}, currentStop: null, refreshTimer: null,
+                accessibleOnly: false };  // UI-5b: one shared accessible setting (see profile.js)const $ = (id) => document.getElementById(id);
 
+                const $ = (id) => document.getElementById(id);
 async function getJSON(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${res.status} ${url}`);
@@ -129,7 +130,7 @@ async function loadStops() {
   const params = new URLSearchParams();
   const q = $("search").value.trim();
   if (q) params.set("q", q);
-  if ($("accessible-only").checked) params.set("accessible", "1");
+  if (state.accessibleOnly) params.set("accessible", "1");
   const data = await getJSON(`/api/stops?${params}`);
   if (!state.map && !$("map").childElementCount) initMap(data.you_are_here);
   state.stops = data.stops;
@@ -139,7 +140,6 @@ $("search").addEventListener("input", () => {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(loadStops, 200);
 });
-$("accessible-only").addEventListener("change", loadStops);
 
 // ---------- Screen 2: Stop detail ----------
 function statusClass(status) {
@@ -159,8 +159,8 @@ async function loadArrivals() {
   const stopId = state.currentStop;
   if (!stopId) return;
   try {
-    const data = await getJSON(`/api/stops/${encodeURIComponent(stopId)}/arrivals`);
-    if (state.currentStop !== stopId) return;
+    const access = state.accessibleOnly ? "?accessible=1" : "";
+    const data = await getJSON(`/api/stops/${encodeURIComponent(stopId)}/arrivals${access}`);    if (state.currentStop !== stopId) return;
     renderAlerts(data.alerts);
     const tag = $("live-tag");
     tag.textContent = data.live ? "Live" : "Scheduled only";
@@ -168,6 +168,8 @@ async function loadArrivals() {
     $("updated-at").textContent = `Updated ${fmtTime(data.updated_at)}`;
     $("arrivals-notice").hidden = !data.notice;
     $("arrivals-notice").textContent = data.notice || "";
+    $("accessibility-notice").hidden = !data.accessibility_notice;
+    $("accessibility-notice").textContent = data.accessibility_notice || "";
 
     const list = $("arrivals");
     if (!data.arrivals.length) {
@@ -182,8 +184,11 @@ async function loadArrivals() {
       return el("li", {},
         el("span", {},
           el("strong", {}, `${a.route} to ${a.headsign}`),
-          el("span", { class: "muted small", style: "display:block" }, `Scheduled ${fmtTime(a.scheduled)}`)),
-        el("span", { class: "right" },
+          el("span", { class: "muted small", style: "display:block" }, `Scheduled ${fmtTime(a.scheduled)}`),
+          // UI-5: accessibility as text, never colour alone
+          a.accessibility ? el("span", { class: a.accessible ? "trip-access" : "trip-access no" },
+            a.accessibility) : null),        
+          el("span", { class: "right" },
           el("span", { class: `status ${statusClass(a.status)}` }, a.label),
           el("span", { class: "muted small", style: "display:block" }, when)));
     }));
@@ -198,11 +203,13 @@ async function loadReliability() {
   const day = $("filter-day").value;
   const time = $("filter-time").value;
   const data = await getJSON(
-    `/api/stops/${encodeURIComponent(stopId)}/reliability?day=${day}&time=${time}`);
+    `/api/stops/${encodeURIComponent(stopId)}/reliability?day=${day}&time=${time}`
+    + (state.accessibleOnly ? "&accessible=1" : ""));
   const dayLabel = day === "all" ? "All days" : $("filter-day").selectedOptions[0].textContent;
   const timeLabel = time === "all" ? "all times" : $("filter-time").selectedOptions[0].textContent;
   $("reliability-caption").textContent =
-    `${dayLabel}, ${timeLabel.toLowerCase()}, from recorded arrivals. These are estimates, not guarantees.`;
+  `${dayLabel}, ${timeLabel.toLowerCase()}${state.accessibleOnly ? ", accessible buses only" : ""}, `
+  + "from recorded arrivals. These are estimates, not guarantees.";
 
   const list = $("reliability");
   if (!data.routes.length) {

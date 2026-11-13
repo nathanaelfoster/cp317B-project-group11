@@ -1,7 +1,4 @@
-// UI-5b: Accessibility filter (shared toggle) and optional accessibility profile.
-//
-// Loaded after app.js (add <script src="/static/profile.js"></script> below app.js in
-// index.html), so it can use app.js helpers: $, el, getJSON, state, loadStops,
+// Loaded after app.js, so it can use app.js helpers: $, state, loadStops,
 // loadArrivals, loadReliability.
 //
 // The rule: ONE shared setting, state.accessibleOnly. Every checkbox marked
@@ -10,45 +7,71 @@
 
 const PROFILE_KEY = "wimi.profile";  // localStorage key; value is JSON {accessibleOnly: true|false}
 
-// Turn the shared filter on or off.
-// - set state.accessibleOnly
-// - tick/untick every [data-accessible-toggle] checkbox to match
-// - reload the stop list, and arrivals + reliability if a stop is open
-//   (and re-run the transfer check if a result is showing)
+// Turn the shared filter on or off, keep every toggle in sync, and reload what's on screen.
 function setAccessibleOnly(on) {
-  // TODO(UI-5b)
+  state.accessibleOnly = Boolean(on);
+  document.querySelectorAll("[data-accessible-toggle]").forEach((box) => {
+    box.checked = state.accessibleOnly;
+  });
+  loadStops();
+  if (state.currentStop && !$("screen-stop").hidden) {
+    loadArrivals();
+    loadReliability();
+  }
+  // Re-run the transfer check if a result is showing (UI-4b).
+  if (typeof checkTransfer === "function" && $("transfer-result") && !$("transfer-result").hidden) {
+    $("transfer-form").requestSubmit();
+  }
 }
 
-// Read the saved profile. Wrap localStorage in try/catch: it can be blocked
-// (private windows, strict browser settings) and the app must still work.
-// Returns {accessibleOnly: bool}, or null when nothing is saved.
+// Read the saved profile. localStorage can be blocked, so never let it break the page.
 function loadProfile() {
-  // TODO(UI-5b)
-  return null;
+  try {
+    const saved = JSON.parse(localStorage.getItem(PROFILE_KEY));
+    return saved && typeof saved === "object" ? { accessibleOnly: Boolean(saved.accessibleOnly) } : null;
+  } catch (e) {
+    return null;
+  }
 }
 
-// Submit handler for #profile-form.
-// Save {accessibleOnly: <#profile-accessible checked>} to localStorage, call
-// setAccessibleOnly() to match, and show "Profile saved on this device." in #profile-status.
+function showProfileStatus(message) {
+  $("profile-status").textContent = message;
+  $("profile-status").hidden = false;
+}
+
 function saveProfile(event) {
   event.preventDefault();
-  // TODO(UI-5b)
+  const accessibleOnly = $("profile-accessible").checked;
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify({ accessibleOnly }));
+    showProfileStatus("Profile saved on this device.");
+  } catch (e) {
+    showProfileStatus("Could not save on this device, but the setting is on for this visit.");
+  }
+  $("profile-note").hidden = !accessibleOnly;
+  setAccessibleOnly(accessibleOnly);
 }
 
-// Click handler for #profile-clear.
-// Remove the saved profile, setAccessibleOnly(false), untick #profile-accessible,
-// and show "Profile cleared." in #profile-status.
 function clearProfile() {
-  // TODO(UI-5b)
+  try { localStorage.removeItem(PROFILE_KEY); } catch (e) { /* nothing saved to clear */ }
+  $("profile-accessible").checked = false;
+  $("profile-note").hidden = true;
+  setAccessibleOnly(false);
+  showProfileStatus("Profile cleared.");
 }
 
-// Run once on page load:
-// - wire every [data-accessible-toggle] checkbox: on change -> setAccessibleOnly(checkbox.checked)
-// - wire #profile-form (submit -> saveProfile) and #profile-clear (click -> clearProfile)
-// - if loadProfile() says accessibleOnly, tick #profile-accessible, show #profile-note
-//   ("Turned on by your accessibility profile.") and call setAccessibleOnly(true)
 function initProfile() {
-  // TODO(UI-5b)
+  document.querySelectorAll("[data-accessible-toggle]").forEach((box) =>
+    box.addEventListener("change", () => setAccessibleOnly(box.checked)));
+  $("profile-form").addEventListener("submit", saveProfile);
+  $("profile-clear").addEventListener("click", clearProfile);
+
+  const profile = loadProfile();
+  if (profile && profile.accessibleOnly) {
+    $("profile-accessible").checked = true;
+    $("profile-note").hidden = false;
+    setAccessibleOnly(true);
+  }
 }
 
 initProfile();
