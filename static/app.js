@@ -2,7 +2,7 @@
 const REFRESH_MS = 30000; // UI-3: refresh live arrivals within 30 seconds
 
 const state = { stops: [], map: null, markers: {}, currentStop: null, refreshTimer: null,
-                accessibleOnly: false };  // UI-5b: one shared accessible setting (see profile.js)const $ = (id) => document.getElementById(id);
+                accessibleOnly: false };  // UI-5b: one shared accessible setting (see profile.js)
 
                 const $ = (id) => document.getElementById(id);
 async function getJSON(url) {
