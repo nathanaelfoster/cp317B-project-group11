@@ -30,26 +30,22 @@ def wants_accessible(value) -> bool:
     "1", "true", "yes" and "on" (any case, surrounding spaces ignored) -> True.
     Anything else, including None and "" -> False.
     """
-    # TODO(UI-5a)
-    raise NotImplementedError
+    return str(value or "").strip().lower() in ("1", "true", "yes", "on")
 
 
 def is_accessible(flag) -> bool:
     """True only when GTFS explicitly marks the stop or trip as accessible (flag == 1)."""
-    # TODO(UI-5a)
-    raise NotImplementedError
+    return flag == ACCESSIBLE
 
 
 def stop_label(flag) -> str:
     """Text label for a stop from STOP_LABELS. Unexpected values use the UNKNOWN label."""
-    # TODO(UI-5a)
-    raise NotImplementedError
+    return STOP_LABELS.get(flag, STOP_LABELS[UNKNOWN])
 
 
 def trip_label(flag) -> str:
     """Text label for a trip from TRIP_LABELS. Unexpected values use the UNKNOWN label."""
-    # TODO(UI-5a)
-    raise NotImplementedError
+    return TRIP_LABELS.get(flag, TRIP_LABELS[UNKNOWN])
 
 
 def trip_sql(alias="t") -> str:
@@ -57,5 +53,4 @@ def trip_sql(alias="t") -> str:
 
     Example: trip_sql("t") -> "t.wheelchair_accessible = 1"
     """
-    # TODO(UI-5a)
-    raise NotImplementedError
+    return f"{alias}.wheelchair_accessible = {ACCESSIBLE}"

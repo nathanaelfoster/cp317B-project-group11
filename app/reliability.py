@@ -3,7 +3,7 @@
 Average delay and on-time percentage for a stop or route, filtered by day of
 week and time of day, built from recorded arrivals in trip_updates.
 """
-from . import delays
+from . import accessibility, delays
 
 MIN_TRIPS_FOR_CONFIDENCE = 10
 
@@ -50,10 +50,14 @@ def _filters(day, time_of_day):
 
 
 
-def _report(conn, where, params, day, time_of_day):
+def _report(conn, where, params, day, time_of_day, accessible_only=False):
     clauses, filter_params = _filters(day, time_of_day)
+    if accessible_only:
+        # UI-5: only count trips run with a wheelchair-accessible vehicle.
+        clauses.append(accessibility.trip_sql("t"))
     sql = f"""SELECT tu.route_id, r.short_name, r.long_name, tu.delay_seconds, tu.cancelled
               FROM trip_updates tu JOIN routes r ON r.route_id = tu.route_id
+              JOIN trips t ON t.trip_id = tu.trip_id
               WHERE {' AND '.join([where] + clauses)}"""
     by_route, all_delays, cancelled = {}, [], 0
     for row in conn.execute(sql, [*params, *filter_params]):
@@ -75,15 +79,16 @@ def _report(conn, where, params, day, time_of_day):
     overall = delays.summarize(all_delays)
     return {
         "filters": {"day": day or "all", "time": time_of_day or "all"},
+        "accessible_only": bool(accessible_only),
         "overall": {**overall, "cancelled": cancelled,
                     "limited_data": overall["trips"] < MIN_TRIPS_FOR_CONFIDENCE},
         "routes": routes,
     }
 
 
-def stop_reliability(conn, stop_id, day="all", time_of_day="all"):
-    return _report(conn, "tu.stop_id = ?", [stop_id], day, time_of_day)
+def stop_reliability(conn, stop_id, day="all", time_of_day="all", accessible_only=False):
+    return _report(conn, "tu.stop_id = ?", [stop_id], day, time_of_day, accessible_only)
 
 
-def route_reliability(conn, route_id, day="all", time_of_day="all"):
-    return _report(conn, "tu.route_id = ?", [route_id], day, time_of_day)
+def route_reliability(conn, route_id, day="all", time_of_day="all", accessible_only=False):
+    return _report(conn, "tu.route_id = ?", [route_id], day, time_of_day, accessible_only)

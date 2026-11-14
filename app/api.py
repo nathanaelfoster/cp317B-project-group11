@@ -63,8 +63,11 @@ def active_alerts(conn, now, stop_id=None):
               AND (a.active_end IS NULL OR a.active_end >= ?) {where}""", params)]
 
 
-def upcoming_arrivals(conn, stop_id, now, limit=6):
-    """UI-3: next arrivals at a stop, merging the schedule with recorded live predictions."""
+def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
+    """UI-3: next arrivals at a stop, merging the schedule with recorded live predictions.
+
+    UI-5: with accessible_only, trips not marked wheelchair accessible are left out.
+    """
     status = feed_status(conn, now)
     service_date = now.date()
     now_secs = timeutil.secs_since_midnight(now, service_date)
@@ -72,8 +75,9 @@ def upcoming_arrivals(conn, stop_id, now, limit=6):
     if not service_ids:
         return {"live": status["live"], "arrivals": []}
     marks = ",".join("?" * len(service_ids))
+    access_clause = f"AND {accessibility.trip_sql('t')}" if accessible_only else ""
     rows = conn.execute(
-        f"""SELECT st.trip_id, st.arrival_secs, t.headsign, r.route_id, r.short_name,
+        f"""SELECT st.trip_id, st.arrival_secs, t.headsign, t.wheelchair_accessible, r.route_id, r.short_name,
                    tu.predicted_arrival, tu.delay_seconds, tu.cancelled, tu.recorded_at
             FROM stop_times st
             JOIN trips t ON t.trip_id = st.trip_id
@@ -81,7 +85,7 @@ def upcoming_arrivals(conn, stop_id, now, limit=6):
             LEFT JOIN trip_updates tu ON tu.trip_id = st.trip_id AND tu.stop_id = st.stop_id
                  AND tu.service_date = ?
             WHERE st.stop_id = ? AND t.service_id IN ({marks})
-              AND st.arrival_secs BETWEEN ? AND ?
+              AND st.arrival_secs BETWEEN ? AND ? {access_clause}
             ORDER BY st.arrival_secs""",
         (service_date.isoformat(), stop_id, *service_ids, now_secs - 30 * 60, now_secs + 90 * 60),
     )
@@ -112,6 +116,8 @@ def upcoming_arrivals(conn, stop_id, now, limit=6):
             "status": "Cancelled" if cancelled else (delays.classify(delay) if delay is not None else "Scheduled"),
             "label": delays.status_label(delay, cancelled),
             "is_live": bool(predicted) or cancelled,
+            "accessible": accessibility.is_accessible(row["wheelchair_accessible"]),
+            "accessibility": accessibility.trip_label(row["wheelchair_accessible"]),
         })
         if len(arrivals) >= limit:
             break
@@ -154,7 +160,7 @@ def create_app(db_path=None, now_fn=None):
     @app.get("/api/stops")
     def stops():
         q = request.args.get("q", "").strip().lower()
-        accessible_only = request.args.get("accessible") in ("1", "true")
+        accessible_only = accessibility.wants_accessible(request.args.get("accessible"))
         lat, lon = DEFAULT_LOCATION
         result = []
         for s in conn().execute("SELECT * FROM stops ORDER BY stop_name"):
@@ -164,9 +170,10 @@ def create_app(db_path=None, now_fn=None):
                           or (s["stop_code"] or "").startswith(q)
                           or q in route_names):
                 continue
-            if accessible_only and s["wheelchair_boarding"] != 1:
+            if accessible_only and not accessibility.is_accessible(s["wheelchair_boarding"]):
                 continue
-            result.append({**dict(s), "accessible": s["wheelchair_boarding"] == 1,
+            result.append({**dict(s), "accessible": accessibility.is_accessible(s["wheelchair_boarding"]),
+                           "accessibility": accessibility.stop_label(s["wheelchair_boarding"]),
                            "routes": [r["short_name"] for r in routes],
                            "distance_m": _distance_m(lat, lon, s["lat"], s["lon"])})
         result.sort(key=lambda s: s["distance_m"])
@@ -181,16 +188,24 @@ def create_app(db_path=None, now_fn=None):
     @app.get("/api/stops/<stop_id>")
     def stop_detail(stop_id):
         s = _stop_or_404(stop_id)
-        return jsonify({**dict(s), "accessible": s["wheelchair_boarding"] == 1,
+        return jsonify({**dict(s), "accessible": accessibility.is_accessible(s["wheelchair_boarding"]),
+                        "accessibility": accessibility.stop_label(s["wheelchair_boarding"]),
                         "routes": stop_routes(conn(), stop_id),
                         "alerts": active_alerts(conn(), now(), stop_id)})
 
     @app.get("/api/stops/<stop_id>/arrivals")
     def arrivals(stop_id):
-        _stop_or_404(stop_id)
+        s = _stop_or_404(stop_id)
         t = now()
-        data = upcoming_arrivals(conn(), stop_id, t, limit=int(request.args.get("limit", 6)))
+        accessible_only = accessibility.wants_accessible(request.args.get("accessible"))
+        data = upcoming_arrivals(conn(), stop_id, t, limit=int(request.args.get("limit", 6)),
+                                 accessible_only=accessible_only)
         data["updated_at"] = t.isoformat()
+        data["accessible_only"] = accessible_only
+        if accessible_only and not accessibility.is_accessible(s["wheelchair_boarding"]):
+            data["accessibility_notice"] = (
+                f"This stop is marked \"{accessibility.stop_label(s['wheelchair_boarding'])}\". "
+                "Showing accessible buses only.")
         data["alerts"] = active_alerts(conn(), t, stop_id)
         if not data["live"]:
             data["notice"] = "Live data is unavailable right now. Showing scheduled times only."
@@ -201,7 +216,8 @@ def create_app(db_path=None, now_fn=None):
         _stop_or_404(stop_id)
         try:
             return jsonify(reliability.stop_reliability(
-                conn(), stop_id, request.args.get("day", "all"), request.args.get("time", "all")))
+                conn(), stop_id, request.args.get("day", "all"), request.args.get("time", "all"),
+                accessibility.wants_accessible(request.args.get("accessible"))))
         except ValueError as exc:
             abort(400, description=str(exc))
 
@@ -211,7 +227,8 @@ def create_app(db_path=None, now_fn=None):
             abort(404, description="Route not found")
         try:
             return jsonify(reliability.route_reliability(
-                conn(), route_id, request.args.get("day", "all"), request.args.get("time", "all")))
+                conn(), route_id, request.args.get("day", "all"), request.args.get("time", "all"),
+                accessibility.wants_accessible(request.args.get("accessible"))))
         except ValueError as exc:
             abort(400, description=str(exc))
 
