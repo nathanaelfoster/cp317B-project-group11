@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from flask import Flask, abort, g, jsonify, request, send_from_directory
 
-from . import config, db, delays, reliability, timeutil
+from . import accessibility, config, db, delays, reliability, timeutil, transfers
 
 # Fixed "You are here" point so we never need to track the rider's location
 # (Location Privacy). Roughly the University Ave. / King St. area.
@@ -212,6 +212,33 @@ def create_app(db_path=None, now_fn=None):
         try:
             return jsonify(reliability.route_reliability(
                 conn(), route_id, request.args.get("day", "all"), request.args.get("time", "all")))
+        except ValueError as exc:
+            abort(400, description=str(exc))
+
+    @app.get("/api/stops/<stop_id>/transfer-options")
+    def stop_transfer_options(stop_id):
+        _stop_or_404(stop_id)
+        return jsonify(transfers.transfer_options(conn(), stop_id))
+
+    @app.get("/api/stops/<stop_id>/transfer")
+    def stop_transfer(stop_id):
+        _stop_or_404(stop_id)
+        args = request.args
+        if not args.get("from") or not args.get("to"):
+            abort(400, description="Choose the route you arrive on and the route you want to catch.")
+        try:
+            buffer_min = float(args.get("buffer", transfers.DEFAULT_BUFFER_MIN))
+        except ValueError:
+            abort(400, description="Transfer time must be a number of minutes.")
+        if buffer_min.is_integer():
+            buffer_min = int(buffer_min)
+        try:
+            return jsonify(transfers.transfer_risk(
+                conn(), stop_id, args["from"], args["to"],
+                from_headsign=args.get("from_headsign") or None,
+                to_headsign=args.get("to_headsign") or None,
+                buffer_min=buffer_min, day=args.get("day", "all"), time_of_day=args.get("time", "all"),
+                accessible_only="accessible" in args and accessibility.wants_accessible(args["accessible"])))
         except ValueError as exc:
             abort(400, description=str(exc))
 
