@@ -9,7 +9,7 @@ from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "sample_gtfs"
 
-# stop_id, code, name, lat, lon, wheelchair_boarding (1 yes, 2 no)
+# stop_id, code, name, lat, lon, wheelchair_boarding (0 unknown, 1 yes, 2 no)
 STOPS = [
     ("CONESTOGA", "1001", "Conestoga Station", 43.4980, -80.5288, 1),
     ("COLUMBIA_KING", "1002", "Columbia St. / King St.", 43.4842, -80.5305, 1),
@@ -17,7 +17,7 @@ STOPS = [
     ("UNIV_KING", "1004", "University Ave. / King St.", 43.4726, -80.5265, 1),
     ("LAURIER_PARK", "1005", "Laurier-Waterloo Park Station", 43.4741, -80.5285, 1),
     ("ALBERT_SEAGRAM", "1006", "Albert St. / Seagram Dr.", 43.4762, -80.5320, 2),
-    ("PHILLIP_COLUMBIA", "1007", "Phillip St. / Columbia St.", 43.4810, -80.5400, 1),
+    ("PHILLIP_COLUMBIA", "1007", "Phillip St. / Columbia St.", 43.4810, -80.5400, 0),
     ("PUBLIC_SQUARE", "1008", "Waterloo Public Square Station", 43.4652, -80.5228, 1),
     ("GRAND_RIVER_HOSP", "1009", "Grand River Hospital Station", 43.4559, -80.5112, 1),
     ("KITCHENER_CITY_HALL", "1010", "Kitchener City Hall Station", 43.4508, -80.4895, 1),
@@ -45,6 +45,16 @@ ROUTES = [
 FIRST_TRIP = 6 * 60   # minutes after midnight
 LAST_TRIP = 23 * 60 + 30
 MINUTES_BETWEEN_STOPS = 3
+
+# UI-5: which trips run on a bus without a working ramp (wheelchair_accessible = 2).
+# Route 9 alternates accessible and older buses; every third Route 7 trip is an older bus.
+# ION (301) and iXpress (201) are always accessible.
+INACCESSIBLE_EVERY = {"9": 2, "7": 3}
+
+
+def trip_accessibility(route_id, trip_number):
+    every = INACCESSIBLE_EVERY.get(route_id)
+    return 2 if every and trip_number % every == every - 1 else 1
 
 
 def hhmmss(minutes):
@@ -78,9 +88,10 @@ def main():
     for route_id, _, _, _, pattern, headsigns, headway in ROUTES:
         for service_id, gap in (("WKDY", headway), ("WKND", headway * 2)):
             for direction, stops in enumerate((pattern, list(reversed(pattern)))):
-                for start in range(FIRST_TRIP, LAST_TRIP + 1, gap):
+                for n, start in enumerate(range(FIRST_TRIP, LAST_TRIP + 1, gap)):
                     trip_id = f"{route_id}-{service_id}-{direction}-{hhmmss(start)[:5].replace(':', '')}"
-                    trips.append((route_id, service_id, trip_id, headsigns[direction], direction, 1))
+                    trips.append((route_id, service_id, trip_id, headsigns[direction], direction,
+                                  trip_accessibility(route_id, n)))
                     for seq, stop_id in enumerate(stops, start=1):
                         t = hhmmss(start + (seq - 1) * MINUTES_BETWEEN_STOPS)
                         stop_times.append((trip_id, t, t, stop_id, seq))
