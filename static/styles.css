@@ -141,9 +141,29 @@ button.secondary { background: var(--surface); color: var(--text); border: 1px s
 /* UI-4b: transfer check */
 .stack label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; }
 .stack label.checkbox { display: flex; }
-.result { margin-top: 16px; padding: 14px; border: 1px solid var(--text); border-radius: 6px; }
-.result .big { font-size: 2rem; font-weight: 800; line-height: 1.1; }
-.result .verdict { font-weight: 700; font-size: 1.1rem; }
-.result dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 12px 0 0; font-size: 0.9rem; }
+.buffer-note { margin: 4px 0 8px; }
+details.options { margin: 6px 0; }
+details > summary { cursor: pointer; font-size: 0.9rem; padding: 6px 0; color: var(--text); }
+details.options[open] > summary { margin-bottom: 6px; }
+
+.result { margin-top: 16px; padding: 14px; border: 1px solid var(--border); border-left-width: 6px; border-radius: 8px; }
+.result.v-very, .result.v-likely { border-left-color: var(--ontime); }
+.result.v-risky { border-left-color: #b26b00; }
+.result.v-unlikely { border-left-color: var(--late); }
+.result.v-none { border-left-color: var(--muted); }
+.verdict-band { display: flex; align-items: center; gap: 8px; font-size: 1.15rem; }
+.verdict-band .icon { font-size: 1.3rem; line-height: 1; }
+.v-very .verdict-band strong, .v-likely .verdict-band strong { color: var(--ontime); }
+.v-risky .verdict-band strong { color: #8a5300; }
+.v-unlikely .verdict-band strong { color: var(--late); }
+.result .headline { font-size: 1.05rem; margin: 10px 0 6px; }
+.dots { display: flex; gap: 5px; margin-bottom: 12px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--text); }
+.dot.on { background: var(--text); }
+.tips { margin: 0 0 10px; padding-left: 18px; }
+.tips li { margin: 6px 0; }
+.tips .tip { list-style: none; margin-left: -18px; margin-top: 10px; padding: 8px 10px; background: var(--alert-bg); border-radius: 6px; }
+details.numbers { border-top: 1px solid #e3e3e3; margin-top: 10px; padding-top: 4px; }
+.result dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; font-size: 0.9rem; }
 .result dt { color: var(--muted); }
 .result dd { margin: 0; text-align: right; font-weight: 600; }
