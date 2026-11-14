@@ -19,7 +19,9 @@ from . import accessibility, delays
 from .reliability import MIN_TRIPS_FOR_CONFIDENCE, _filters
 
 DEFAULT_BUFFER_MIN = 2   # time to cross the platform or the street
+ACCESSIBLE_BUFFER_MIN = 4  # extra time for ramps, kneeling buses and boarding
 MAX_BUFFER_MIN = 15
+BUFFER_CHOICES = (3, 5, 8, 10)  # larger transfer times to try for the "safer" tip
 
 # (lowest made %, verdict), checked top to bottom.
 VERDICTS = [
@@ -122,13 +124,15 @@ def _advice(made_pct, connections):
 
 
 def transfer_risk(conn, stop_id, from_route, to_route, from_headsign=None, to_headsign=None,
-                  buffer_min=DEFAULT_BUFFER_MIN, day="all", time_of_day="all",
+                  buffer_min=None, day="all", time_of_day="all",
                   accessible_only=False) -> dict:
     """How often a planned transfer at `stop_id` from one route to another would have worked.
 
     - day / time_of_day filter route A's arrivals; reuse _filters() from app/reliability.py.
     - accessible_only keeps only accessible trips on BOTH legs (use accessibility.trip_sql).
     - from_headsign / to_headsign narrow a route to one direction; None means any direction.
+    - buffer_min None picks a typical transfer time for the rider: DEFAULT_BUFFER_MIN, or
+      ACCESSIBLE_BUFFER_MIN when accessible_only is on.
 
     Raises ValueError when:
       - buffer_min is outside 0..MAX_BUFFER_MIN
@@ -150,7 +154,14 @@ def transfer_risk(conn, stop_id, from_route, to_route, from_headsign=None, to_he
                            could actually catch (None if none)
       advice               one line for riders, e.g. "Consider taking an earlier bus, or
                            allowing more transfer time." when made_pct < 75
+      buffer_auto          True when buffer_min was picked for the rider
+      to_every_min         typical minutes between route B buses here (median, None if unknown)
+      safer                {"buffer_min", "made_pct"}: the smallest larger transfer time from
+                           BUFFER_CHOICES that reaches the next verdict band, or None
     """
+    buffer_auto = buffer_min is None
+    if buffer_auto:
+        buffer_min = ACCESSIBLE_BUFFER_MIN if accessible_only else DEFAULT_BUFFER_MIN
     if not 0 <= buffer_min <= MAX_BUFFER_MIN:
         raise ValueError(f"Transfer time must be between 0 and {MAX_BUFFER_MIN} minutes.")
     if from_route == to_route and from_headsign == to_headsign:
@@ -172,7 +183,39 @@ def transfer_risk(conn, stop_id, from_route, to_route, from_headsign=None, to_he
         if b["cancelled"] or b["delay_seconds"] is not None:
             departures.setdefault(b["service_date"], []).append(b)
 
-    buffer_secs = round(buffer_min * 60)
+    counts = _count(arrivals, departures, round(buffer_min * 60))
+    made, missed = counts["made"], counts["missed"]
+    planned_gaps, extra_waits = counts["planned_gaps"], counts["extra_waits"]
+
+    # Step 4: the summary.
+    connections = made + missed
+    made_pct = round(made / connections * 100) if connections else None
+    limited_data = connections < MIN_TRIPS_FOR_CONFIDENCE
+    return {
+        "stop_id": stop_id,
+        "from": {"route_id": from_route, "headsign": from_headsign},
+        "to": {"route_id": to_route, "headsign": to_headsign},
+        "buffer_min": buffer_min,
+        "filters": {"day": day or "all", "time": time_of_day or "all"},
+        "accessible_only": accessible_only,
+        "connections": connections,
+        "made": made,
+        "missed": missed,
+        "made_pct": made_pct,
+        "verdict": "Not enough data" if limited_data else verdict(made_pct),
+        "limited_data": limited_data,
+        "cancelled_arrivals": counts["cancelled_arrivals"],
+        "avg_planned_gap_min": delays.delay_minutes(sum(planned_gaps) / len(planned_gaps)) if planned_gaps else None,
+        "avg_extra_wait_min": delays.delay_minutes(sum(extra_waits) / len(extra_waits)) if extra_waits else None,
+        "advice": _advice(made_pct, connections),
+        "buffer_auto": buffer_auto,
+        "to_every_min": _typical_headway_min(departures),
+        "safer": _safer(arrivals, departures, buffer_min, made_pct),
+    }
+
+
+def _count(arrivals, departures, buffer_secs):
+    """Steps 2 and 3 for one transfer time: made, missed, skipped cancellations and waits."""
     made = missed = cancelled_arrivals = 0
     planned_gaps, extra_waits = [], []
 
@@ -205,25 +248,37 @@ def transfer_risk(conn, stop_id, from_route, to_route, from_headsign=None, to_he
         if caught is not None:
             extra_waits.append(caught["scheduled_secs"] + caught["delay_seconds"] - planned["scheduled_secs"])
 
-    # Step 4: the summary.
-    connections = made + missed
-    made_pct = round(made / connections * 100) if connections else None
-    limited_data = connections < MIN_TRIPS_FOR_CONFIDENCE
-    return {
-        "stop_id": stop_id,
-        "from": {"route_id": from_route, "headsign": from_headsign},
-        "to": {"route_id": to_route, "headsign": to_headsign},
-        "buffer_min": buffer_min,
-        "filters": {"day": day or "all", "time": time_of_day or "all"},
-        "accessible_only": accessible_only,
-        "connections": connections,
-        "made": made,
-        "missed": missed,
-        "made_pct": made_pct,
-        "verdict": "Not enough data" if limited_data else verdict(made_pct),
-        "limited_data": limited_data,
-        "cancelled_arrivals": cancelled_arrivals,
-        "avg_planned_gap_min": delays.delay_minutes(sum(planned_gaps) / len(planned_gaps)) if planned_gaps else None,
-        "avg_extra_wait_min": delays.delay_minutes(sum(extra_waits) / len(extra_waits)) if extra_waits else None,
-        "advice": _advice(made_pct, connections),
-    }
+    return {"made": made, "missed": missed, "cancelled_arrivals": cancelled_arrivals,
+            "planned_gaps": planned_gaps, "extra_waits": extra_waits}
+
+
+def _typical_headway_min(departures):
+    """Median scheduled minutes between one route B bus and the next on the same day.
+
+    The median keeps a long overnight gap from making a frequent route look rare.
+    """
+    gaps = sorted(later["scheduled_secs"] - earlier["scheduled_secs"]
+                  for day in departures.values()
+                  for earlier, later in zip(day, day[1:])
+                  if later["scheduled_secs"] > earlier["scheduled_secs"])
+    if not gaps:
+        return None
+    mid = len(gaps) // 2
+    median = gaps[mid] if len(gaps) % 2 else (gaps[mid - 1] + gaps[mid]) / 2
+    return delays.delay_minutes(median)
+
+
+def _safer(arrivals, departures, buffer_min, made_pct):
+    """The smallest larger transfer time that lifts the result into the next verdict band."""
+    if made_pct is None or made_pct >= VERDICTS[0][0]:
+        return None
+    # The lowest made % of the next band up, e.g. 72 ("Risky") needs 75 ("Likely").
+    target = min(lowest for lowest, _ in VERDICTS if lowest > made_pct)
+    for choice in BUFFER_CHOICES:
+        if choice <= buffer_min:
+            continue
+        counts = _count(arrivals, departures, choice * 60)
+        connections = counts["made"] + counts["missed"]
+        if connections and round(counts["made"] / connections * 100) >= target:
+            return {"buffer_min": choice, "made_pct": round(counts["made"] / connections * 100)}
+    return None

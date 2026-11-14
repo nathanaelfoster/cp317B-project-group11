@@ -226,12 +226,17 @@ def create_app(db_path=None, now_fn=None):
         args = request.args
         if not args.get("from") or not args.get("to"):
             abort(400, description="Choose the route you arrive on and the route you want to catch.")
-        try:
-            buffer_min = float(args.get("buffer", transfers.DEFAULT_BUFFER_MIN))
-        except ValueError:
-            abort(400, description="Transfer time must be a number of minutes.")
-        if buffer_min.is_integer():
-            buffer_min = int(buffer_min)
+        # No buffer (or "auto") lets transfer_risk pick a typical transfer time for the rider.
+        buffer_min = args.get("buffer", "auto")
+        if buffer_min == "auto":
+            buffer_min = None
+        else:
+            try:
+                buffer_min = float(buffer_min)
+            except ValueError:
+                abort(400, description="Transfer time must be a number of minutes.")
+            if buffer_min.is_integer():
+                buffer_min = int(buffer_min)
         try:
             return jsonify(transfers.transfer_risk(
                 conn(), stop_id, args["from"], args["to"],

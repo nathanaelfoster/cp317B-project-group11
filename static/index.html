@@ -60,32 +60,40 @@
       </section>
 
       <section id="screen-transfers" class="screen" hidden aria-labelledby="transfers-title">
-        <h1 id="transfers-title">Transfer check</h1>
-        <p class="muted small">See how often a connection would have worked, based on recorded arrivals.</p>
+        <h1 id="transfers-title">Will I make my transfer?</h1>
+        <p class="muted small">Pick the bus you're on and the one you want to catch. We'll check how often that connection has worked.</p>
         <form id="transfer-form" class="stack">
-          <label>Transfer stop <select id="transfer-stop" required></select></label>
-          <label>I arrive on <select id="transfer-from" required></select></label>
-          <label>And want to catch <select id="transfer-to" required></select></label>
-          <label>Time I need to get between buses
-            <select id="transfer-buffer">
-              <option value="0">No extra time</option>
-              <option value="1">1 minute</option>
-              <option value="2" selected>2 minutes</option>
-              <option value="3">3 minutes</option>
-              <option value="5">5 minutes</option>
-              <option value="8">8 minutes</option>
-              <option value="10">10 minutes</option>
-            </select>
-          </label>
-          <div class="filters">
-            <label>Day <select id="transfer-day"></select></label>
-            <label>Time <select id="transfer-time"></select></label>
-          </div>
+          <label>Where do you switch? <select id="transfer-stop" required></select></label>
+          <label>I'm on <select id="transfer-from" required></select></label>
+          <label>I want to catch <select id="transfer-to" required></select></label>
           <label class="checkbox small">
             <input id="transfer-accessible-only" type="checkbox" data-accessible-toggle>
             Accessible buses only
           </label>
-          <button class="primary" type="submit">Check this transfer</button>
+          <p id="transfer-buffer-note" class="small buffer-note">We'll allow <strong>2 min</strong> to switch buses.</p>
+          <details class="options">
+            <summary>Change time to switch buses</summary>
+            <label>Time I need to get between buses
+              <select id="transfer-buffer">
+                <option value="auto" selected>Automatic (recommended)</option>
+                <option value="0">No extra time</option>
+                <option value="1">1 minute</option>
+                <option value="2">2 minutes</option>
+                <option value="3">3 minutes</option>
+                <option value="5">5 minutes</option>
+                <option value="8">8 minutes</option>
+                <option value="10">10 minutes</option>
+              </select>
+            </label>
+          </details>
+          <details class="options">
+            <summary>More options: day and time</summary>
+            <div class="filters">
+              <label>Day <select id="transfer-day"></select></label>
+              <label>Time <select id="transfer-time"></select></label>
+            </div>
+          </details>
+          <button class="primary" type="submit">Check my transfer</button>
         </form>
         <div id="transfer-result" class="result" aria-live="polite" hidden></div>
       </section>
