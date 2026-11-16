@@ -126,38 +126,9 @@ def _advice(made_pct, connections):
 def transfer_risk(conn, stop_id, from_route, to_route, from_headsign=None, to_headsign=None,
                   buffer_min=None, day="all", time_of_day="all",
                   accessible_only=False) -> dict:
-    """How often a planned transfer at `stop_id` from one route to another would have worked.
-
-    - day / time_of_day filter route A's arrivals; reuse _filters() from app/reliability.py.
-    - accessible_only keeps only accessible trips on BOTH legs (use accessibility.trip_sql).
-    - from_headsign / to_headsign narrow a route to one direction; None means any direction.
-    - buffer_min None picks a typical transfer time for the rider: DEFAULT_BUFFER_MIN, or
-      ACCESSIBLE_BUFFER_MIN when accessible_only is on.
-
-    Raises ValueError when:
-      - buffer_min is outside 0..MAX_BUFFER_MIN
-      - from and to are the same route and the same direction
-      - a route does not arrive (from) or leave (to) at this stop (see transfer_options)
-
-    Returns a dict with these keys:
-      stop_id, from {"route_id", "headsign"}, to {"route_id", "headsign"}, buffer_min,
-      filters {"day", "time"}, accessible_only,
-      connections          made + missed
-      made, missed
-      made_pct             whole number, None when connections == 0
-      verdict              verdict(made_pct), but "Not enough data" when
-                           connections < MIN_TRIPS_FOR_CONFIDENCE
-      limited_data         connections < MIN_TRIPS_FOR_CONFIDENCE
-      cancelled_arrivals   route A arrivals skipped because they were cancelled
-      avg_planned_gap_min  average scheduled minutes between A arriving and planned B (None if none)
-      avg_extra_wait_min   when missed, average extra minutes until the next B the rider
-                           could actually catch (None if none)
-      advice               one line for riders, e.g. "Consider taking an earlier bus, or
-                           allowing more transfer time." when made_pct < 75
-      buffer_auto          True when buffer_min was picked for the rider
-      to_every_min         typical minutes between route B buses here (median, None if unknown)
-      safer                {"buffer_min", "made_pct"}: the smallest larger transfer time from
-                           BUFFER_CHOICES that reaches the next verdict band, or None
+    """For every recorded arrival of route A at the stop, find the route B trip the rider
+    planned to catch. The transfer is MADE if B actually left (scheduled + REP-1 delay)
+    at least buffer_min minutes after A actually arrived.
     """
     buffer_auto = buffer_min is None
     if buffer_auto:
