@@ -8,6 +8,7 @@ import argparse
 import logging
 
 from app import config, db
+from app.auth import seed_demo_users
 from app.api import create_app
 from app.collector import Collector, collect_once, default_source
 from app.gtfs_loader import load_gtfs
@@ -26,6 +27,10 @@ def setup(reset=False):
             logging.info("Seeded %d sample historical arrivals", n)
         else:
             load_gtfs(conn, config.GRT_STATIC_URL)
+    if reset:
+        # UI-6a: demo accounts for the class demo (password "demo-password").
+        n = seed_demo_users(conn)
+        logging.info("Created %d demo accounts", n)
     collect_once(conn, default_source())  # so the first page load has live data
     conn.close()
 
