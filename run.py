@@ -1,14 +1,15 @@
 """Start the prototype: set up the database if needed, start the collector, serve the app.
 
     python run.py                 # sample mode, http://localhost:5000
-    python run.py --reset         # rebuild the sample database
+    python run.py --reset         # rebuild the sample database, demo accounts and reports
     WIMI_MODE=live python run.py  # use GRT's live feeds (see README)
 """
 import argparse
 import logging
 
-from app import config, db
+from app import config, db, timeutil
 from app.auth import seed_demo_users
+from app.barriers import seed_demo_reports
 from app.api import create_app
 from app.collector import Collector, collect_once, default_source
 from app.gtfs_loader import load_gtfs
@@ -31,6 +32,9 @@ def setup(reset=False):
         # UI-6a: demo accounts for the class demo (password "demo-password").
         n = seed_demo_users(conn)
         logging.info("Created %d demo accounts", n)
+        # UI-6a: demo barrier reports for the stop screen and REP-4a analyst reports.
+        n = seed_demo_reports(conn, timeutil.now_local())
+        logging.info("Seeded %d demo barrier reports", n)
     collect_once(conn, default_source())  # so the first page load has live data
     conn.close()
 

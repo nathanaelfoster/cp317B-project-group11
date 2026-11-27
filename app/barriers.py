@@ -209,3 +209,85 @@ def open_report_count(conn, stop_id):
     return conn.execute(
         "SELECT COUNT(*) FROM barrier_reports WHERE stop_id = ? AND status IN ('open', 'under_review')",
         (stop_id,)).fetchone()[0]
+
+
+# Demo data for the class demo and REP-4a analyst reports: 25 reports over the
+# last 60 days at 7 sample stops. University / King is the clear hotspot.
+# (stop_id, category, days_ago, hours until review, hours until resolved)
+# No review hours = still open; no resolve hours = still under review.
+DEMO_REPORTS = (
+    ("UNIV_KING", "snow_ice", 58, 2, 9),
+    ("UNIV_KING", "snow_ice", 41, 1, 6),
+    ("UNIV_KING", "ramp", 30, 5, 52),
+    ("UNIV_KING", "snow_ice", 12, 3, 20),
+    ("UNIV_KING", "sidewalk", 4, 6, None),
+    ("UNIV_KING", "snow_ice", 1, None, None),
+    ("UW_STATION", "elevator", 55, 1, 30),
+    ("UW_STATION", "elevator", 33, 2, 75),
+    ("UW_STATION", "elevator", 9, 4, None),
+    ("UW_STATION", "shelter", 2, None, None),
+    ("CONESTOGA", "elevator", 50, 3, 96),
+    ("CONESTOGA", "sidewalk", 27, 8, 40),
+    ("CONESTOGA", "ramp", 6, None, None),
+    ("PUBLIC_SQUARE", "shelter", 47, 12, 120),
+    ("PUBLIC_SQUARE", "snow_ice", 20, 1, 5),
+    ("PUBLIC_SQUARE", "other", 3, 2, None),
+    ("GRAND_RIVER_HOSP", "ramp", 44, 4, 28),
+    ("GRAND_RIVER_HOSP", "ramp", 15, 6, 60),
+    ("GRAND_RIVER_HOSP", "snow_ice", 5, None, None),
+    ("KITCHENER_CITY_HALL", "sidewalk", 38, 2, 14),
+    ("KITCHENER_CITY_HALL", "shelter", 18, 24, None),
+    ("KITCHENER_CITY_HALL", "snow_ice", 8, 1, 4),
+    ("FAIRWAY", "ramp", 36, 3, 48),
+    ("FAIRWAY", "other", 22, 2, 7),
+    ("FAIRWAY", "elevator", 1, None, None),
+)
+
+DEMO_DESCRIPTIONS = {
+    "ramp": "Ramp is cracked and hard to roll over",
+    "elevator": "Elevator to the platform is out of service",
+    "snow_ice": "Snowbank is blocking the boarding pad",
+    "sidewalk": "Construction fencing is blocking the sidewalk",
+    "shelter": "Shelter glass is broken and the bench is gone",
+    "other": "Stop sign is missing so the stop is hard to find",
+}
+
+
+def seed_demo_reports(conn, now, reporter="rider_demo", admin="admin_demo"):
+    """Add DEMO_REPORTS with their status history. Returns how many were added.
+
+    Needs the demo users (auth.seed_demo_users). Does nothing if any reports
+    already exist, and skips stops that aren't in the loaded GTFS.
+    """
+    if conn.execute("SELECT 1 FROM barrier_reports LIMIT 1").fetchone():
+        return 0
+    users = dict(conn.execute("SELECT username, id FROM users WHERE username IN (?, ?)", (reporter, admin)))
+    if reporter not in users or admin not in users:
+        raise LookupError("Create the demo users first (auth.seed_demo_users).")
+    stops = {r[0] for r in conn.execute("SELECT stop_id FROM stops")}
+    added = 0
+    for i, (stop_id, category, days_ago, review_h, resolve_h) in enumerate(DEMO_REPORTS):
+        if stop_id not in stops:
+            continue
+        # Spread reports over the day so they don't all share a time.
+        created = now - timedelta(days=days_ago, hours=i % 5, minutes=7 * i)
+        steps = [(None, "open", users[reporter], created)]
+        if review_h is not None:
+            steps.append(("open", "under_review", users[admin], created + timedelta(hours=review_h)))
+        if resolve_h is not None:
+            steps.append(("under_review", "resolved", users[admin], created + timedelta(hours=resolve_h)))
+        status, updated = steps[-1][1], steps[-1][3]
+        resolved_at = updated.isoformat() if status == "resolved" else None
+        cur = conn.execute(
+            """INSERT INTO barrier_reports (stop_id, user_id, category, description, status,
+                                            created_at, updated_at, resolved_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (stop_id, users[reporter], category, DEMO_DESCRIPTIONS[category], status,
+             created.isoformat(), updated.isoformat(), resolved_at))
+        conn.executemany(
+            """INSERT INTO report_status_history (report_id, old_status, new_status, changed_by, changed_at)
+               VALUES (?, ?, ?, ?, ?)""",
+            [(cur.lastrowid, old, new, by, at.isoformat()) for old, new, by, at in steps])
+        added += 1
+    conn.commit()
+    return added
