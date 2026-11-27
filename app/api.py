@@ -194,7 +194,8 @@ def create_app(db_path=None, now_fn=None):
         return jsonify({**dict(s), "accessible": accessibility.is_accessible(s["wheelchair_boarding"]),
                         "accessibility": accessibility.stop_label(s["wheelchair_boarding"]),
                         "routes": stop_routes(conn(), stop_id),
-                        "alerts": active_alerts(conn(), now(), stop_id)})
+                        "alerts": active_alerts(conn(), now(), stop_id),
+                        "open_reports": barriers.open_report_count(conn(), stop_id)})
 
     @app.get("/api/stops/<stop_id>/arrivals")
     def arrivals(stop_id):
@@ -333,6 +334,27 @@ def create_app(db_path=None, now_fn=None):
         include_resolved = request.args.get("include_resolved", "").lower() in ("1", "true", "yes")
         return jsonify({"stop_id": stop_id,
                         "reports": barriers.stop_reports(conn(), stop_id, include_resolved, now())})
+
+    @app.get("/api/reports")
+    @auth.role_required("admin")
+    def list_all_reports():
+        try:
+            return jsonify({"reports": barriers.all_reports(conn(), request.args.get("status") or None)})
+        except barriers.ReportError as exc:
+            abort(400, description=str(exc))
+
+    @app.patch("/api/reports/<int:report_id>")
+    @auth.role_required("admin")
+    def update_report_status(report_id):
+        try:
+            row = barriers.change_status(conn(), report_id, _json_body().get("status"), g.user["id"], now())
+        except LookupError:
+            abort(404, description="Report not found")
+        except barriers.ReportError as exc:
+            abort(400, description=str(exc))
+        except barriers.InvalidMove as exc:
+            return jsonify({"error": str(exc), "allowed": exc.allowed}), 409
+        return jsonify(barriers.to_admin(row))
 
     @app.errorhandler(400)
     @app.errorhandler(401)
