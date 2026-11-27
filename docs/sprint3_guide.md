@@ -34,7 +34,7 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
 - [ ] Tests
 
 ** Part 1: ** 
-1. **`app/schema.sql`**: add `users`, `barrier_reports` and `report_status_history` exactly as in the contract.
+1. **`app/schema.sql`**: add `users`, `barrier_reports` and `report_status_history`.
 2. **`app/config.py`**: add `SECRET_KEY = os.environ.get("WIMI_SECRET_KEY", "dev-only-change-me")`. In `create_app()` set `app.secret_key = config.SECRET_KEY`, and `SESSION_COOKIE_HTTPONLY=True`, `SESSION_COOKIE_SAMESITE="Lax"`.
 3. **New file `app/auth.py`**:
    - `create_user(conn, username, password, role="rider")` using `werkzeug.security.generate_password_hash`.
@@ -42,20 +42,21 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
    - `current_user(conn)` reads `session["user_id"]`, returns the user dict or `None`.
    - Decorators `login_required` (401) and `role_required(*roles)` (401 if logged out, 403 if wrong role). **Arham imports `role_required` for REP-4a, so keep the name.**
    - `seed_demo_users(conn)`: creates `rider_demo`, `analyst_demo`, `admin_demo` (password `demo-password`) if they don't exist.
-4. **`app/api.py`**: add `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`. Validation rules are in the contract. On login, `session.clear()` then set `session["user_id"]`.
+4. **`app/api.py`**: add `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`. On login, `session.clear()` then set `session["user_id"]`.
 5. **`run.py`**: call `seed_demo_users()` after `--reset`.
-6. Tests in **`tests/test_auth.py`** (see list below). Open the PR.
+6. Tests in **`tests/test_auth.py`**. Open the PR.
 
 
 ** Part 2: ** 
 1. **New file `app/barriers.py`** with the logic, so `api.py` stays thin:
-   - `CATEGORIES` and `STATUSES` dicts (code to label), from the contract.
+   - `CATEGORIES` (code to label): `ramp` "Broken ramp", `elevator` "Elevator out of service", `snow_ice` "Snow or ice", `sidewalk` "Blocked sidewalk", `shelter` "Damaged shelter", `other` "Other".
+   - `STATUSES` (code to label): `open` "Open", `under_review` "Under review", `resolved` "Resolved".
    - `ALLOWED_MOVES = {"open": {"under_review"}, "under_review": {"resolved", "open"}, "resolved": set()}`.
    - `create_report(conn, stop_id, user_id, category, description, now)`: validates, checks the rate limit, inserts the report plus the first history row (`old_status` NULL, `new_status` 'open').
    - `rate_limit_wait(conn, user_id, stop_id, now)`: returns minutes to wait, or 0. **3 per user per stop in the last hour, 10 per user in the last 24 hours.** Count rows in `barrier_reports`; no extra package needed.
    - `change_status(conn, report_id, new_status, admin_id, now)`: checks `ALLOWED_MOVES`, updates `status` and `updated_at`, sets `resolved_at` when resolving (clear it if sent back to open), adds a history row.
    - `stop_reports(conn, stop_id, include_resolved, now)` and `all_reports(conn, status=None)`.
-   - `to_public(row)`: builds the report object from the contract. **No username or user id.**
+   - `to_public(row)`: **No username or user id.**
 2. **`app/api.py`** endpoints:
    - `POST /api/stops/<stop_id>/reports` (`login_required`)
    - `GET /api/stops/<stop_id>/reports` (public)
@@ -63,14 +64,19 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
    - `PATCH /api/reports/<id>` (`role_required("admin")`)
    - `GET /api/stops/<stop_id>`: add `"open_reports"` (count of `open` + `under_review`).
    - Use the app's `now_fn` for timestamps (like the rest of `api.py`) so tests can control time.
-3. **Demo data.** Add `seed_demo_reports(conn, now)` that creates around 25 reports over the last 60 days across 6 to 8 stops, with a mix of statuses and realistic resolution times (a few hours to a few days). Call it from `run.py --reset` after the demo users. **Arham needs this for REP-4a**, so agree on it with him by Tuesday.
+3. **Demo data.** Add `seed_demo_reports(conn, now)` that creates around 25 reports over the last 60 days across 6 to 8 stops, with a mix of statuses and realistic resolution times (a few hours to a few days). Call it from `run.py --reset` after the demo users. **Arham needs this for REP-4a**.
 4. Tests in **`tests/test_barriers.py`**. Open the PR.
 
 ------------------------------------------------------------------------------------
 **Arham (UI-3a, then REP-4a)**
 - [ ] Fix the alerts URL in `config.py`, (https://webapps.regionofwaterloo.ca/api/grt-routes/)
+- [ ] Each arrival gets a status: on time / late / early / cancelled / scheduled, plus a detour flag
+- [ ] Arrivals include "last updated" time and a stale flag
+- [ ] Analyst: least reliable accessible routes (no dependency)
+- [ ] Analyst: stops with most reports, average resolution time (after Itohan's tables)
+- [ ] Analyst/admin only. Tests
 
-** For 3a ** 
+** For UI-3a ** 
 1. **New file `app/live.py`** with:
    - `arrival_status(delay_seconds, cancelled, has_prediction)` returning `(status, status_label)`. Reuse the REP-1 on-time rule from `app/delays.py`; don't redefine the thresholds.
    - `EFFECT_LABELS` for GTFS-Realtime alert effects (`DETOUR` "Detour", `REDUCED_SERVICE` "Reduced service", `NO_SERVICE` "No service", `SIGNIFICANT_DELAYS` "Significant delays", `STOP_MOVED` "Stop moved", anything else "Service change").
@@ -81,19 +87,13 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
    - Add `effect_label` to each alert in `active_alerts()`.
 3. **Tests in `tests/test_live.py`.**
 
-** For 4a **
+** For REP-4a **
 1. **New file `app/analyst.py`**:
    - `least_reliable_accessible_routes(conn, now, days=30, dow=None, time=None, limit=10, min_trips=20)`. Join `trip_updates` to `trips`, filter with `accessibility.trip_sql("t")` from UI-5a, use the existing day/time filter helpers from `app/reliability.py`, and the REP-1 on-time rule from `app/delays.py`. Skip cancelled trips in the on-time % but count them in `cancelled`. Drop routes under `min_trips`. Sort by `on_time_pct` ascending.
    - `report_hotspots(conn, now, days=90, limit=10)`: group `barrier_reports` by stop, count by status, find the most common category.
    - `resolution_time(conn, now, days=90)`: average and median hours from `created_at` to `resolved_at` for reports resolved in the window, overall and by category, plus the count still unresolved. Do the median in Python, since SQLite has no `MEDIAN`.
 2. **`app/api.py`**: add the three `GET /api/analyst/...` endpoints with `@role_required("analyst", "admin")`. Validate query values (`days` 1 to 365, `limit` 1 to 50, otherwise 400).
 3. **Tests in `tests/test_analyst.py`** with a small hand-made fixture whose answers you can work out on paper. Write those answers in the fixture docstring, like `tests/test_transfers.py` does.
-
-- [ ] Each arrival gets a status: on time / late / early / cancelled / scheduled, plus a detour flag
-- [ ] Arrivals include "last updated" time and a stale flag
-- [ ] Analyst: least reliable accessible routes (start Monday, no dependency)
-- [ ] Analyst: stops with most reports, average resolution time (after Itohan's tables)
-- [ ] Analyst/admin only. Tests
 
 
 ------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
 1. **Login / sign-up.** Add a login section to the **Profile** tab (it already exists from UI-5b): username, password, "Log in" and "Create account" buttons. When logged in, show "Logged in as sam (rider)" and "Log out". Call `GET /api/auth/me` on page load and keep the user in `state.user`. Put the shared code in a new `static/auth.js`.
 2. **Report tab.** Replace the placeholder with a form:
    - Stop picker (search by name, reuse the map's stop list). When the rider taps "Report a barrier at this stop" on the stop screen, open the Report tab with that stop already chosen.
-   - Category `<select>` with the labels from the contract.
+   - Category `<select>` using the `CATEGORIES` labels (Broken ramp, Elevator out of service, Snow or ice, Blocked sidewalk, Damaged shelter, Other).
    - Description `<textarea>` with a "123 / 500" counter.
    - Submit calls `POST /api/stops/<id>/reports`.
    - Logged out: show "Log in to report a barrier" with a button to the Profile tab instead of the form.
@@ -144,7 +144,6 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
 3. Tables are fine (and easiest to make accessible). Use `<caption>` and `<th scope="col">`. If you have time left, add a simple CSS bar in the on-time % column.
 4. Show "Loading..." while fetching, and a message on 401/403 ("Analyst access only").
 
-**Everyone:** run all tests, walk through the app together, log bugs. Test table is in `integration-testing.md`.
 
 ## API endpoints
 
@@ -160,4 +159,3 @@ How it builds on Sprint 2: REP-4 reuses the UI-5a accessible-trip filter and the
 - `GET /api/analyst/report-hotspots`
 - `GET /api/analyst/resolution-time`
 
-Exact fields and error codes: `api-contract.md`.
