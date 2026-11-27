@@ -35,6 +35,9 @@ function showScreen(name) {
     else b.removeAttribute("aria-current");
   }
   if (name !== "stop") stopRefresh();
+  if (name === "report" && typeof renderReportAccess === "function") {
+  renderReportAccess();
+}
   if (name === "map" && state.map) setTimeout(() => state.map.invalidateSize(), 0);
   $("main").focus();
 }
@@ -304,6 +307,12 @@ async function openStop(stopId, push = true) {
   renderAlerts(s.alerts);
   $("arrivals").replaceChildren(el("li", { class: "muted" }, "Loading arrivals..."));
   showScreen("stop");
+  $("show-resolved").checked = false;
+$("barrier-heading").textContent = `Barrier reports (${s.open_reports || 0})`;
+
+if (typeof loadStopReports === "function") {
+  loadStopReports();
+}
   stopRefresh();
   await Promise.all([loadArrivals(), loadReliability()]);
   if (state.currentStop !== stopId || $("screen-stop").hidden) return;
