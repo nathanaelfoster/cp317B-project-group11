@@ -54,9 +54,24 @@
         </div>
         <p id="reliability-caption" class="muted small"></p>
         <ul id="reliability" class="reliability"></ul>
+        <hr class="section-divider">
+
+<h2 id="barrier-heading">Barrier reports</h2>
+
+<label class="checkbox small">
+  <input id="show-resolved" type="checkbox">
+  Show resolved reports
+</label>
+
+<ul id="stop-reports"
+    class="report-list"
+    aria-live="polite"></ul>
 
         <button class="primary" type="button" data-tab="transfers">Check a transfer from here</button>
-        <button class="secondary" type="button" data-tab="report">Report a barrier at this stop</button>
+        <button id="report-this-stop" class="secondary"
+        type="button" data-tab="report">
+  Report a barrier at this stop
+</button>
       </section>
 
       <section id="screen-transfers" class="screen" hidden aria-labelledby="transfers-title">
@@ -98,9 +113,110 @@
         <div id="transfer-result" class="result" aria-live="polite" hidden></div>
       </section>
       <section id="screen-report" class="screen" hidden aria-labelledby="report-title">
-        <h1 id="report-title">Report a barrier</h1>
-        <p class="muted">Coming in a later sprint. Sign-in will be required to submit reports.</p>
-      </section>
+  <h1 id="report-title">Report a barrier</h1>
+
+  <div id="report-login-required">
+    <p>Log in to report a barrier.</p>
+    <button class="primary" type="button" data-tab="profile">
+      Go to Profile
+    </button>
+  </div>
+
+  <form id="report-form" class="stack" hidden>
+    <label for="report-search">Search for a stop</label>
+    <input id="report-search" type="search"
+           placeholder="Enter stop name">
+
+    <label for="report-stop">Stop</label>
+    <select id="report-stop" required></select>
+
+    <label for="report-category">Barrier type</label>
+    <select id="report-category" required>
+      <option value="">Choose a barrier type</option>
+      <option value="ramp">Broken ramp</option>
+      <option value="elevator">Elevator out of service</option>
+      <option value="snow_ice">Snow or ice</option>
+      <option value="sidewalk">Blocked sidewalk</option>
+      <option value="shelter">Damaged shelter</option>
+      <option value="other">Other</option>
+    </select>
+
+    <label for="report-description">Description</label>
+    <textarea id="report-description"
+              maxlength="500"
+              rows="4"
+              required></textarea>
+
+    <p id="report-counter" class="muted small">0 / 500</p>
+
+    <button class="primary" type="submit">
+      Submit report
+    </button>
+  </form>
+
+  <p id="report-message" class="notice"
+     role="status" tabindex="-1" hidden></p>
+
+  <div id="admin-section" hidden>
+    <hr class="section-divider">
+    <h2>Manage reports</h2>
+
+    <label for="admin-filter">Filter by status</label>
+    <select id="admin-filter">
+      <option value="">All reports</option>
+      <option value="open">Open</option>
+      <option value="under_review">Under review</option>
+      <option value="resolved">Resolved</option>
+    </select>
+
+    <p id="admin-message" role="status" class="notice" hidden></p>
+    <ul id="admin-reports" class="report-list"></ul>
+  </div>
+</section>
+      <!-- REP-4b: Analyst dashboard -->
+<section id="screen-analyst" class="screen" hidden
+         aria-labelledby="analyst-title">
+
+  <h1 id="analyst-title">Analyst dashboard</h1>
+
+  <p class="muted small">
+    Review accessible route reliability and reported barriers.
+  </p>
+
+  <p id="analyst-message" class="notice" role="status" hidden></p>
+
+  <h2>Least reliable accessible routes</h2>
+
+  <label class="field-label" for="analyst-days">Look back</label>
+  <select id="analyst-days">
+    <option value="7">7 days</option>
+    <option value="30" selected>30 days</option>
+    <option value="90">90 days</option>
+  </select>
+
+  <div class="filters analyst-filters">
+    <label>Day <select id="analyst-day"></select></label>
+    <label>Time <select id="analyst-time"></select></label>
+  </div>
+
+  <div id="analyst-routes" class="table-scroll"></div>
+
+  <hr class="section-divider">
+
+  <h2>Barrier report hotspots</h2>
+  <p class="muted small">Reports from the last 90 days.</p>
+  <div id="analyst-hotspots" class="table-scroll"></div>
+
+  <hr class="section-divider">
+
+  <h2>Report resolution time</h2>
+  <p class="muted small">Resolution data from the last 90 days.</p>
+
+  <div id="analyst-summary" class="analyst-summary"></div>
+
+  <div id="analyst-categories" class="table-scroll"></div>
+
+</section>
       <section id="screen-profile" class="screen" hidden aria-labelledby="profile-title">
         <h1 id="profile-title">Accessibility profile</h1>
         <p class="muted">A profile is optional. It is saved only on this device, so no account is needed.</p>
@@ -116,6 +232,52 @@
           <button id="profile-clear" class="secondary" type="button">Clear profile</button>
         </form>
         <p id="profile-status" class="notice" role="status" hidden></p>
+        <!-- UI-6b: authentication -->
+<hr class="section-divider">
+
+<h2>Account</h2>
+<p class="muted small">
+  An account is needed to report barriers and access
+  role-specific features.
+</p>
+
+<form id="auth-form" class="stack">
+  <label for="auth-username">Username</label>
+  <input id="auth-username"
+         type="text"
+         autocomplete="username"
+         required>
+
+  <label for="auth-password">Password</label>
+  <input id="auth-password"
+         type="password"
+         autocomplete="current-password"
+         required>
+
+  <button class="primary" type="submit">
+    Log in
+  </button>
+
+  <button id="auth-register"
+          class="secondary"
+          type="button">
+    Create account
+  </button>
+</form>
+
+<div id="auth-account" hidden>
+  <p id="auth-user"></p>
+  <button id="auth-logout"
+          class="secondary"
+          type="button">
+    Log out
+  </button>
+</div>
+
+<p id="auth-message"
+   class="notice"
+   role="status"
+   hidden></p>
       </section>
     </main>
 
@@ -124,6 +286,8 @@
       <button type="button" data-tab="transfers">Transfers</button>
       <button type="button" data-tab="report">Report</button>
       <button type="button" data-tab="profile">Profile</button>
+      <button id="analyst-tab" type="button"
+        data-tab="analyst" hidden>Analyst</button>
     </nav>
   </div>
 
@@ -131,5 +295,8 @@
   <script src="/static/app.js"></script>
   <script src="/static/transfers.js"></script>
   <script src="/static/profile.js"></script>
+  <script src="/static/auth.js"></script>
+  <script src="/static/reports.js"></script>
+  <script src="/static/analyst.js"></script>
 </body>
 </html>

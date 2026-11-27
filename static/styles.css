@@ -167,3 +167,191 @@ details.numbers { border-top: 1px solid #e3e3e3; margin-top: 10px; padding-top: 
 .result dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; font-size: 0.9rem; }
 .result dt { color: var(--muted); }
 .result dd { margin: 0; text-align: right; font-weight: 600; }
+
+/* UI-3b: live arrivals and service alerts */
+.detour-tag {
+  display: inline-block;
+  margin-top: 5px;
+  background: var(--alert-bg);
+  color: var(--early);
+}
+
+.cancelled-time {
+  text-decoration: line-through;
+}
+
+.status.cancelled {
+  color: var(--late);
+  text-decoration: none;
+}
+/* UI-6b: account and authentication */
+
+input[type="text"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  border: 1px solid #888;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+#auth-form label {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+#auth-user {
+  font-weight: 600;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* UI-6b: barrier reports and admin management */
+
+.report-list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+
+.report-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.report-card p {
+  margin: 8px 0;
+}
+
+.report-status {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-left: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.report-status.open {
+  color: var(--late);
+}
+
+.report-status.under_review {
+  color: var(--early);
+}
+
+.report-status.resolved {
+  color: var(--ontime);
+}
+
+#report-form label {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+#report-description {
+  resize: vertical;
+}
+
+#report-counter {
+  text-align: right;
+  margin-top: 4px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* REP-4b: Analyst dashboard */
+
+.tabbar {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.analyst-filters {
+  margin: 12px 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.analyst-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.analyst-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.analyst-table th,
+.analyst-table td {
+  padding: 8px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.analyst-table th {
+  background: #ececec;
+}
+
+.analyst-table tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.analyst-stop-link {
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.analyst-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.analyst-metric {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.analyst-metric strong {
+  display: block;
+  font-size: 1.4rem;
+}
+
+.analyst-metric span {
+  display: block;
+}

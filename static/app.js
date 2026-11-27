@@ -35,6 +35,12 @@ function showScreen(name) {
     else b.removeAttribute("aria-current");
   }
   if (name !== "stop") stopRefresh();
+  if (name === "report" && typeof renderReportAccess === "function") {
+  renderReportAccess();
+}
+if (name === "analyst" && typeof loadAnalystReports === "function") {
+  loadAnalystReports();
+}
   if (name === "map" && state.map) setTimeout(() => state.map.invalidateSize(), 0);
   $("main").focus();
 }
@@ -143,18 +149,38 @@ $("search").addEventListener("input", () => {
 
 // ---------- Screen 2: Stop detail ----------
 function statusClass(status) {
-  return { "Late": "late", "On time": "ontime", "Early": "early",
-           "Cancelled": "cancelled", "Scheduled": "scheduled" }[status] || "scheduled";
+  const key = String(status || "").toLowerCase()
+    .replace(/[\s_-]+/g, "");
+
+  return {
+    late: "late",
+    ontime: "ontime",
+    early: "early",
+    cancelled: "cancelled",
+    scheduled: "scheduled"
+  }[key] || "scheduled";
 }
 
 function renderAlerts(alerts) {
   const box = $("stop-alerts");
   box.replaceChildren(...alerts.map((a) =>
     el("div", { class: "alert", role: "note" },
-      el("strong", {}, `Service alert: ${a.header}`),
+      el("strong", {}, `${a.effect_label || "Service alert"}: ${a.header}`),
       a.description ? el("span", { class: "small" }, a.description) : null)));
 }
+function updateFeedAge() {
+  if (state.feedAge == null) {
+    $("updated-at").textContent = "Not updated yet";
+    return;
+  }
 
+  const elapsed = Math.floor(
+    (Date.now() - state.feedReceivedAt) / 1000
+  );
+
+  $("updated-at").textContent =
+    `Updated ${state.feedAge + elapsed} s ago`;
+}
 async function loadArrivals() {
   const stopId = state.currentStop;
   if (!stopId) return;
@@ -165,9 +191,14 @@ async function loadArrivals() {
     const tag = $("live-tag");
     tag.textContent = data.live ? "Live" : "Scheduled only";
     tag.className = `tag ${data.live ? "live" : "scheduled"}`;
-    $("updated-at").textContent = `Updated ${fmtTime(data.updated_at)}`;
-    $("arrivals-notice").hidden = !data.notice;
-    $("arrivals-notice").textContent = data.notice || "";
+    state.feedAge = data.feed_age_seconds;
+state.feedReceivedAt = Date.now();
+updateFeedAge();
+   $("arrivals-notice").hidden = !data.stale && !data.notice;
+
+$("arrivals-notice").textContent = data.stale
+  ? "Live data is delayed. Times may be out of date."
+  : data.notice || "";
     $("accessibility-notice").hidden = !data.accessibility_notice;
     $("accessibility-notice").textContent = data.accessibility_notice || "";
 
@@ -177,21 +208,46 @@ async function loadArrivals() {
       return;
     }
     list.replaceChildren(...data.arrivals.map((a) => {
-      const when = a.status === "Cancelled"
-        ? "Not running"
-        : `${a.is_live ? "Arrives" : "Scheduled"} ${fmtTime(a.expected)}`
-          + (a.minutes_away === 0 ? " (due now)" : ` (${a.minutes_away} min)`);
-      return el("li", {},
-        el("span", {},
-          el("strong", {}, `${a.route} to ${a.headsign}`),
-          el("span", { class: "muted small", style: "display:block" }, `Scheduled ${fmtTime(a.scheduled)}`),
-          // UI-5: accessibility as text, never colour alone
-          a.accessibility ? el("span", { class: a.accessible ? "trip-access" : "trip-access no" },
-            a.accessibility) : null),        
-          el("span", { class: "right" },
-          el("span", { class: `status ${statusClass(a.status)}` }, a.label),
-          el("span", { class: "muted small", style: "display:block" }, when)));
-    }));
+  const cancelled = a.status === "cancelled";
+
+  const when = cancelled
+    ? "Not running"
+    : `${a.live ? "Arrives" : "Scheduled"} ${fmtTime(a.expected)}`
+      + (a.minutes_away === 0
+        ? " (due now)"
+        : ` (${a.minutes_away} min)`);
+
+  return el("li", {},
+    el("span", {},
+      el("strong", {}, `${a.route} to ${a.headsign}`),
+      el("span", {
+        class: `muted small ${cancelled ? "cancelled-time" : ""}`,
+        style: "display:block"
+      }, `Scheduled ${fmtTime(a.scheduled)}`),
+
+      a.accessibility
+        ? el("span", {
+            class: a.accessible ? "trip-access" : "trip-access no"
+          }, a.accessibility)
+        : null,
+
+      a.detour
+        ? el("span", { class: "tag detour-tag" }, "Detour")
+        : null
+    ),
+
+    el("span", { class: "right" },
+      el("span", {
+        class: `status ${statusClass(a.status)}`
+      }, a.status_label),
+
+      el("span", {
+        class: "muted small",
+        style: "display:block"
+      }, when)
+    )
+  );
+}));
   } catch (e) {
     $("arrivals-notice").hidden = false;
     $("arrivals-notice").textContent = "Could not load arrivals. Retrying in 30 seconds.";
@@ -237,7 +293,9 @@ $("filter-time").addEventListener("change", loadReliability);
 
 function stopRefresh() {
   clearInterval(state.refreshTimer);
+  clearInterval(state.ageTimer);
   state.refreshTimer = null;
+  state.ageTimer = null;
 }
 
 async function openStop(stopId, push = true) {
@@ -252,9 +310,17 @@ async function openStop(stopId, push = true) {
   renderAlerts(s.alerts);
   $("arrivals").replaceChildren(el("li", { class: "muted" }, "Loading arrivals..."));
   showScreen("stop");
+  $("show-resolved").checked = false;
+$("barrier-heading").textContent = `Barrier reports (${s.open_reports || 0})`;
+
+if (typeof loadStopReports === "function") {
+  loadStopReports();
+}
   stopRefresh();
   await Promise.all([loadArrivals(), loadReliability()]);
+  if (state.currentStop !== stopId || $("screen-stop").hidden) return;
   state.refreshTimer = setInterval(() => { loadArrivals(); loadStatus(); }, REFRESH_MS);
+  state.ageTimer = setInterval(updateFeedAge, 1000);
 }
 
 async function loadFilters() {
