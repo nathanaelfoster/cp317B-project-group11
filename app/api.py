@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from flask import Flask, abort, g, jsonify, request, send_from_directory
 
-from . import accessibility, auth, config, db, delays, reliability, timeutil, transfers
+from . import accessibility, auth, barriers, config, db, delays, reliability, timeutil, transfers
 
 # Fixed "You are here" point so we never need to track the rider's location
 # (Location Privacy). Roughly the University Ave. / King St. area.
@@ -307,6 +307,32 @@ def create_app(db_path=None, now_fn=None):
     @app.get("/api/auth/me")
     def me():
         return jsonify({"user": auth.current_user(conn())})
+
+    # UI-6a: barrier reports.
+    @app.post("/api/stops/<stop_id>/reports")
+    @auth.login_required
+    def submit_report(stop_id):
+        _stop_or_404(stop_id)
+        body = _json_body()
+        try:
+            report = barriers.create_report(conn(), stop_id, g.user["id"], body.get("category"),
+                                            body.get("description"), now())
+        except barriers.ReportError as exc:
+            abort(400, description=str(exc))
+        except barriers.RateLimited as exc:
+            return jsonify({
+                "error": ("You've sent several reports recently. "
+                          f"Try again in {exc.retry_after_minutes} minutes."),
+                "retry_after_minutes": exc.retry_after_minutes,
+            }), 429
+        return jsonify(report), 201
+
+    @app.get("/api/stops/<stop_id>/reports")
+    def list_stop_reports(stop_id):
+        _stop_or_404(stop_id)
+        include_resolved = request.args.get("include_resolved", "").lower() in ("1", "true", "yes")
+        return jsonify({"stop_id": stop_id,
+                        "reports": barriers.stop_reports(conn(), stop_id, include_resolved, now())})
 
     @app.errorhandler(400)
     @app.errorhandler(401)
