@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from flask import Flask, abort, g, jsonify, request, send_from_directory
 
-from . import accessibility, auth, barriers, config, db, delays, live, reliability, timeutil, transfers
+from . import accessibility, analyst, auth, barriers, config, db, delays, reliability, timeutil, transfers
 
 # Fixed "You are here" point so we never need to track the rider's location
 # (Location Privacy). Roughly the University Ave. / King St. area.
@@ -367,6 +367,44 @@ def create_app(db_path=None, now_fn=None):
         except barriers.InvalidMove as exc:
             return jsonify({"error": str(exc), "allowed": exc.allowed}), 409
         return jsonify(barriers.to_admin(row))
+
+    # REP-4: analyst reports (analysts and admins only).
+    def _int_arg(name, default, low, high):
+        """A whole-number query value between low and high, or a 400."""
+        value = request.args.get(name)
+        if value in (None, ""):
+            return default
+        try:
+            number = int(value)
+        except ValueError:
+            abort(400, description=f"{name} must be a whole number.")
+        if not low <= number <= high:
+            abort(400, description=f"{name} must be between {low} and {high}.")
+        return number
+
+    @app.get("/api/analyst/accessible-routes")
+    @auth.role_required("analyst", "admin")
+    def analyst_accessible_routes():
+        days = _int_arg("days", 30, 1, 365)
+        limit = _int_arg("limit", 10, 1, 50)
+        min_trips = _int_arg("min_trips", 20, 1, 10000)
+        try:
+            return jsonify(analyst.least_reliable_accessible_routes(
+                conn(), now(), days=days, dow=request.args.get("day") or None,
+                time=request.args.get("time") or None, limit=limit, min_trips=min_trips))
+        except ValueError as exc:
+            abort(400, description=str(exc))
+
+    @app.get("/api/analyst/report-hotspots")
+    @auth.role_required("analyst", "admin")
+    def analyst_report_hotspots():
+        return jsonify(analyst.report_hotspots(
+            conn(), now(), days=_int_arg("days", 90, 1, 365), limit=_int_arg("limit", 10, 1, 50)))
+
+    @app.get("/api/analyst/resolution-time")
+    @auth.role_required("analyst", "admin")
+    def analyst_resolution_time():
+        return jsonify(analyst.resolution_time(conn(), now(), days=_int_arg("days", 90, 1, 365)))
 
     @app.errorhandler(400)
     @app.errorhandler(401)
