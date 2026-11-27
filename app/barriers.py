@@ -150,3 +150,62 @@ def stop_reports(conn, stop_id, include_resolved, now):
         elif include_resolved and r["resolved_at"] and now - _parse(r["resolved_at"]) <= RESOLVED_LOOKBACK:
             keep.append(r)
     return [to_public(r) for r in _newest_first(keep)]
+
+
+class InvalidMove(Exception):
+    """A status change ALLOWED_MOVES doesn't permit (409)."""
+
+    def __init__(self, old_status, new_status):
+        super().__init__(f"Can't move a report from {old_status} to {new_status}")
+        self.allowed = sorted(ALLOWED_MOVES.get(old_status, ()))
+
+
+def change_status(conn, report_id, new_status, admin_id, now):
+    """Move a report to new_status and record it in the history. Returns the full row.
+
+    Raises LookupError for an unknown report, ReportError for an unknown status,
+    and InvalidMove when the move isn't allowed.
+    """
+    row = get_report(conn, report_id)
+    if row is None:
+        raise LookupError("Report not found")
+    if new_status not in STATUSES:
+        raise ReportError("Status must be open, under_review or resolved.")
+    old_status = row["status"]
+    if new_status not in ALLOWED_MOVES[old_status]:
+        raise InvalidMove(old_status, new_status)
+    stamp = now.isoformat()
+    # Resolving stamps resolved_at; sending a report back to open clears it.
+    resolved_at = stamp if new_status == "resolved" else None
+    conn.execute(
+        "UPDATE barrier_reports SET status = ?, updated_at = ?, resolved_at = ? WHERE id = ?",
+        (new_status, stamp, resolved_at, report_id))
+    conn.execute(
+        """INSERT INTO report_status_history (report_id, old_status, new_status, changed_by, changed_at)
+           VALUES (?, ?, ?, ?, ?)""",
+        (report_id, old_status, new_status, admin_id, stamp))
+    conn.commit()
+    return get_report(conn, report_id)
+
+
+def all_reports(conn, status=None):
+    """Every report (optionally one status), newest first, with reported_by for admins."""
+    if status is not None and status not in STATUSES:
+        raise ReportError("Status must be open, under_review or resolved.")
+    if status:
+        rows = conn.execute(f"{_REPORT_SELECT} WHERE br.status = ?", (status,)).fetchall()
+    else:
+        rows = conn.execute(_REPORT_SELECT).fetchall()
+    return [to_admin(r) for r in _newest_first(rows)]
+
+
+def to_admin(row):
+    """The public report plus who reported it. Admin responses only."""
+    return {**to_public(row), "reported_by": row["username"]}
+
+
+def open_report_count(conn, stop_id):
+    """Reports at a stop that still need attention (open or under review)."""
+    return conn.execute(
+        "SELECT COUNT(*) FROM barrier_reports WHERE stop_id = ? AND status IN ('open', 'under_review')",
+        (stop_id,)).fetchone()[0]
