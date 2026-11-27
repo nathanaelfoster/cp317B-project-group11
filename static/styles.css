@@ -277,3 +277,81 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+/* REP-4b: Analyst dashboard */
+
+.tabbar {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.analyst-filters {
+  margin: 12px 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.analyst-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.analyst-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.analyst-table th,
+.analyst-table td {
+  padding: 8px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.analyst-table th {
+  background: #ececec;
+}
+
+.analyst-table tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.analyst-stop-link {
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.analyst-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.analyst-metric {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.analyst-metric strong {
+  display: block;
+  font-size: 1.4rem;
+}
+
+.analyst-metric span {
+  display: block;
+}

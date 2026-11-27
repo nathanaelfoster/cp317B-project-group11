@@ -38,6 +38,9 @@ function showScreen(name) {
   if (name === "report" && typeof renderReportAccess === "function") {
   renderReportAccess();
 }
+if (name === "analyst" && typeof loadAnalystReports === "function") {
+  loadAnalystReports();
+}
   if (name === "map" && state.map) setTimeout(() => state.map.invalidateSize(), 0);
   $("main").focus();
 }
