@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from flask import Flask, abort, g, jsonify, request, send_from_directory
 
-from . import accessibility, config, db, delays, reliability, timeutil, transfers
+from . import accessibility, auth, config, db, delays, reliability, timeutil, transfers
 
 # Fixed "You are here" point so we never need to track the rider's location
 # (Location Privacy). Roughly the University Ave. / King St. area.
@@ -127,6 +127,9 @@ def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
 def create_app(db_path=None, now_fn=None):
     app = Flask(__name__, static_folder=str(config.BASE_DIR / "static"), static_url_path="/static")
     app.config["DB_PATH"] = db_path or config.DB_PATH
+    # UI-6a: signed session cookie for logins.
+    app.secret_key = config.SECRET_KEY
+    app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
     now = now_fn or timeutil.now_local
 
     def conn():
@@ -268,8 +271,49 @@ def create_app(db_path=None, now_fn=None):
     def alerts():
         return jsonify(active_alerts(conn(), now(), request.args.get("stop_id")))
 
+    # UI-6a: accounts and logins. See the Sprint 3 API contract.
+    def _json_body():
+        body = request.get_json(silent=True)
+        return body if isinstance(body, dict) else {}
+
+    @app.post("/api/auth/register")
+    def register():
+        body = _json_body()
+        username, password = body.get("username"), body.get("password")
+        error = auth.validate_credentials(username, password)
+        if error:
+            abort(400, description=error)
+        try:
+            user = auth.create_user(conn(), username, password, "rider", now())
+        except auth.UsernameTaken:
+            return jsonify({"error": "That username is taken."}), 409
+        auth.login_user(user)
+        return jsonify({"user": user}), 201
+
+    @app.post("/api/auth/login")
+    def login():
+        body = _json_body()
+        user = auth.check_login(conn(), body.get("username"), body.get("password"))
+        if user is None:
+            return jsonify({"error": auth.LOGIN_ERROR}), 401
+        auth.login_user(user)
+        return jsonify({"user": user})
+
+    @app.post("/api/auth/logout")
+    def logout():
+        auth.logout_user()
+        return jsonify({"ok": True})
+
+    @app.get("/api/auth/me")
+    def me():
+        return jsonify({"user": auth.current_user(conn())})
+
     @app.errorhandler(400)
+    @app.errorhandler(401)
+    @app.errorhandler(403)
     @app.errorhandler(404)
+    @app.errorhandler(405)
+    @app.errorhandler(409)
     def _json_error(err):
         return jsonify({"error": err.description}), err.code
 

@@ -104,3 +104,38 @@ CREATE TABLE IF NOT EXISTS collection_log (
     duration_ms  INTEGER,
     message      TEXT
 );
+
+-- UI-6a: logins and barrier reports (see the Sprint 3 API contract).
+CREATE TABLE IF NOT EXISTS users (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    username      TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,          -- werkzeug.security, never plain text
+    role          TEXT NOT NULL DEFAULT 'rider'
+                  CHECK (role IN ('rider', 'analyst', 'admin')),
+    created_at    TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS barrier_reports (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    stop_id     TEXT NOT NULL REFERENCES stops(stop_id),
+    user_id     INTEGER NOT NULL REFERENCES users(id),
+    category    TEXT NOT NULL
+                CHECK (category IN ('ramp', 'elevator', 'snow_ice', 'sidewalk', 'shelter', 'other')),
+    description TEXT NOT NULL,            -- 1 to 500 characters
+    status      TEXT NOT NULL DEFAULT 'open'
+                CHECK (status IN ('open', 'under_review', 'resolved')),
+    created_at  TEXT NOT NULL,            -- ISO 8601 with offset, like trip_updates
+    updated_at  TEXT NOT NULL,
+    resolved_at TEXT                      -- set when status becomes 'resolved'
+);
+CREATE INDEX IF NOT EXISTS idx_reports_stop ON barrier_reports(stop_id, status);
+CREATE INDEX IF NOT EXISTS idx_reports_user ON barrier_reports(user_id, created_at);
+
+CREATE TABLE IF NOT EXISTS report_status_history (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id  INTEGER NOT NULL REFERENCES barrier_reports(id),
+    old_status TEXT,                      -- NULL for the first 'open' row
+    new_status TEXT NOT NULL,
+    changed_by INTEGER REFERENCES users(id),
+    changed_at TEXT NOT NULL
+);
