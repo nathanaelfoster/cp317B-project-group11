@@ -167,3 +167,20 @@ details.numbers { border-top: 1px solid #e3e3e3; margin-top: 10px; padding-top: 
 .result dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; font-size: 0.9rem; }
 .result dt { color: var(--muted); }
 .result dd { margin: 0; text-align: right; font-weight: 600; }
+
+/* UI-3b: live arrivals and service alerts */
+.detour-tag {
+  display: inline-block;
+  margin-top: 5px;
+  background: var(--alert-bg);
+  color: var(--early);
+}
+
+.cancelled-time {
+  text-decoration: line-through;
+}
+
+.status.cancelled {
+  color: var(--late);
+  text-decoration: none;
+}
