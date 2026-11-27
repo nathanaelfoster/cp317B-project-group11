@@ -181,6 +181,75 @@ function updateFeedAge() {
   $("updated-at").textContent =
     `Updated ${state.feedAge + elapsed} s ago`;
 }
+// Icons sit next to the status words, so the status never relies on colour alone.
+const STATUS_ICON = { late: "▲", ontime: "✓", early: "◀", cancelled: "✕", scheduled: "◷" };
+
+function statusPill(a) {
+  const cls = statusClass(a.status);
+  return el("span", { class: `status pill ${cls}` },
+    el("span", { "aria-hidden": "true" }, `${STATUS_ICON[cls]} `), a.status_label);
+}
+
+// One card per route and direction: the next bus is shown big, later ones on a "Then" line.
+function groupArrivals(arrivals) {
+  const groups = new Map();
+  for (const a of arrivals) {
+    const key = `${a.route}|${a.headsign}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(a);
+  }
+  return [...groups.values()];
+}
+
+const minutesText = (a) => (a.minutes_away === 0 ? "Due now" : `${a.minutes_away} min`);
+
+function arrivalCard(group) {
+  const [a, ...later] = group;
+  const cancelled = statusClass(a.status) === "cancelled";
+
+  let mins;
+  if (cancelled) mins = el("div", { class: "arrival-mins none", "aria-hidden": "true" }, "–");
+  else if (a.minutes_away === 0) mins = el("div", { class: "arrival-mins" }, "Now");
+  else mins = el("div", { class: "arrival-mins" }, String(a.minutes_away), el("span", {}, "min"));
+
+  const when = cancelled
+    ? el("span", { class: "muted small arrival-when" }, "Not running. Was ",
+        el("span", { class: "cancelled-time" }, fmtTime(a.scheduled)))
+    : el("span", { class: "muted small arrival-when" },
+        ...(a.live
+          ? [el("span", {}, `Arrives ${fmtTime(a.expected)}`), el("span", {}, ` · scheduled ${fmtTime(a.scheduled)}`)]
+          : [el("span", {}, `Scheduled ${fmtTime(a.scheduled)}`)]));
+
+  const card = el("li", { class: "arrival-card" },
+    el("div", { class: "arrival-head" },
+      el("span", { class: "route-badge" }, a.route),
+      el("strong", { class: "arrival-dir" }, el("span", { class: "muted small" }, "to "), a.headsign)),
+    el("div", { class: "arrival-main" },
+      mins,
+      el("div", { class: "right" },
+        statusPill(a),
+        when,
+        el("span", { class: "arrival-tags" },
+          a.detour ? el("span", { class: "tag detour-tag" }, "Detour") : null,
+          a.accessibility
+            ? el("span", { class: a.accessible ? "trip-access" : "trip-access no" }, a.accessibility)
+            : null))));
+
+  if (later.length) {
+    card.append(el("div", { class: "arrival-then" },
+      el("span", { class: "muted small" }, "Then"),
+      el("span", { class: "then-list" }, ...later.slice(0, 2).map((n) => {
+        const gone = statusClass(n.status) === "cancelled";
+        return el("span", { class: "then-item" },
+          el("strong", {}, gone ? fmtTime(n.scheduled) : minutesText(n)),
+          ` · ${n.status_label}`,
+          n.accessibility && !n.accessible
+            ? el("span", { class: "trip-access no" }, ` · ${n.accessibility}`) : null);
+      }))));
+  }
+  return card;
+}
+
 async function loadArrivals() {
   const stopId = state.currentStop;
   if (!stopId) return;
@@ -207,47 +276,7 @@ $("arrivals-notice").textContent = data.stale
       list.replaceChildren(el("li", { class: "muted" }, "No buses or trains in the next 90 minutes."));
       return;
     }
-    list.replaceChildren(...data.arrivals.map((a) => {
-  const cancelled = a.status === "cancelled";
-
-  const when = cancelled
-    ? "Not running"
-    : `${a.live ? "Arrives" : "Scheduled"} ${fmtTime(a.expected)}`
-      + (a.minutes_away === 0
-        ? " (due now)"
-        : ` (${a.minutes_away} min)`);
-
-  return el("li", {},
-    el("span", {},
-      el("strong", {}, `${a.route} to ${a.headsign}`),
-      el("span", {
-        class: `muted small ${cancelled ? "cancelled-time" : ""}`,
-        style: "display:block"
-      }, `Scheduled ${fmtTime(a.scheduled)}`),
-
-      a.accessibility
-        ? el("span", {
-            class: a.accessible ? "trip-access" : "trip-access no"
-          }, a.accessibility)
-        : null,
-
-      a.detour
-        ? el("span", { class: "tag detour-tag" }, "Detour")
-        : null
-    ),
-
-    el("span", { class: "right" },
-      el("span", {
-        class: `status ${statusClass(a.status)}`
-      }, a.status_label),
-
-      el("span", {
-        class: "muted small",
-        style: "display:block"
-      }, when)
-    )
-  );
-}));
+    list.replaceChildren(...groupArrivals(data.arrivals).map(arrivalCard));
   } catch (e) {
     $("arrivals-notice").hidden = false;
     $("arrivals-notice").textContent = "Could not load arrivals. Retrying in 30 seconds.";
@@ -276,17 +305,43 @@ async function loadReliability() {
     if (r.trips === 0) {
       return el("li", { class: "muted" }, `${r.short_name}: no recorded arrivals (${r.cancelled} cancelled).`);
     }
+    const [headline, band] = reliabilityWords(r.on_time_pct);
     const avg = r.avg_delay_min;
-    const avgText = avg >= 0 ? `avg ${avg} min late` : `avg ${Math.abs(avg)} min early`;
-    return el("li", {},
+    const avgFull = avg >= 0 ? `${avg} min late` : `${Math.abs(avg)} min early`;
+    return el("li", { class: `rel-item ${band}` },
       el("div", { class: "rel-row" },
-        el("strong", {}, `${r.short_name} on time ${r.on_time} of ${r.trips} trips (${r.on_time_pct}%)`),
-        el("span", {}, avgText)),
+        el("span", { class: "route-badge small-badge" }, r.short_name),
+        el("div", { class: "rel-text" },
+          el("strong", {}, headline),
+          el("span", { class: "muted small" }, `${tripsInTen(r.on_time_pct)} · ${usualDelay(avg)}`))),
       el("div", { class: "bar", role: "img", "aria-label": `${r.on_time_pct} percent on time` },
         el("span", { style: `width:${r.on_time_pct}%` })),
       r.limited_data ? el("span", { class: "muted small" }, "Limited data: treat this as a rough estimate.") : null,
-      r.cancelled ? el("span", { class: "muted small", style: "display:block" }, `${r.cancelled} cancelled trips not counted.`) : null);
+      el("details", { class: "numbers" }, el("summary", {}, "See the numbers"),
+        el("dl", {},
+          el("dt", {}, "On time"), el("dd", {}, `${r.on_time} of ${r.trips} trips (${r.on_time_pct}%)`),
+          el("dt", {}, "Average delay"), el("dd", {}, avgFull),
+          ...(r.cancelled ? [el("dt", {}, "Cancelled trips not counted"), el("dd", {}, String(r.cancelled))] : []))));
   }));
+}
+
+// Wording only: the same on-time % and average delay, said the way a rider would.
+function reliabilityWords(pct) {
+  if (pct >= 90) return ["Usually on time", "good"];
+  if (pct >= 75) return ["Mostly on time", "good"];
+  if (pct >= 50) return ["Hit or miss", "fair"];
+  return ["Rarely on time", "poor"];
+}
+function tripsInTen(pct) {
+  const n = Math.round(pct / 10);
+  if (n >= 10) return "Almost every trip on time";
+  if (n <= 0) return "Almost no trips on time";
+  return `About ${n} in 10 trips on time`;
+}
+function usualDelay(avg) {
+  const m = Math.round(Math.abs(avg));
+  if (m === 0) return "usually right on schedule";
+  return `usually about ${m} min ${avg > 0 ? "late" : "early"}`;
 }
 $("filter-day").addEventListener("change", loadReliability);
 $("filter-time").addEventListener("change", loadReliability);
