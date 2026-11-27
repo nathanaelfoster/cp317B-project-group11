@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from flask import Flask, abort, g, jsonify, request, send_from_directory
 
-from . import accessibility, auth, barriers, config, db, delays, reliability, timeutil, transfers
+from . import accessibility, auth, barriers, config, db, delays, live, reliability, timeutil, transfers
 
 # Fixed "You are here" point so we never need to track the rider's location
 # (Location Privacy). Roughly the University Ave. / King St. area.
@@ -56,11 +56,13 @@ def active_alerts(conn, now, stop_id=None):
                 SELECT DISTINCT t.route_id FROM stop_times st JOIN trips t ON t.trip_id = st.trip_id
                 WHERE st.stop_id = ?))"""
         params += [stop_id, stop_id]
-    return [dict(r) for r in conn.execute(
+    rows = conn.execute(
         f"""SELECT a.alert_id, a.header, a.description, a.effect, a.cause, a.active_start, a.active_end
             FROM alerts a WHERE a.active = 1
               AND (a.active_start IS NULL OR a.active_start <= ?)
-              AND (a.active_end IS NULL OR a.active_end >= ?) {where}""", params)]
+              AND (a.active_end IS NULL OR a.active_end >= ?) {where}""", params)
+    # UI-3: a rider-facing name for the effect, e.g. "Detour".
+    return [{**dict(r), "effect_label": live.effect_label(r["effect"])} for r in rows]
 
 
 def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
@@ -90,6 +92,7 @@ def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
         (service_date.isoformat(), stop_id, *service_ids, now_secs - 30 * 60, now_secs + 90 * 60),
     )
     fresh_after = now - timedelta(seconds=config.STALE_AFTER_SECONDS)
+    detours = live.detoured_routes(conn, now, stop_id)
     arrivals = []
     for row in rows:
         scheduled = timeutil.scheduled_datetime(service_date, row["arrival_secs"])
@@ -104,6 +107,7 @@ def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
         if cancelled and scheduled < now - timedelta(minutes=1):
             continue
         delay = row["delay_seconds"] if predicted else None
+        arrival_status, status_label = live.arrival_status(delay, cancelled, predicted is not None)
         arrivals.append({
             "trip_id": row["trip_id"],
             "route_id": row["route_id"],
@@ -113,8 +117,11 @@ def upcoming_arrivals(conn, stop_id, now, limit=6, accessible_only=False):
             "expected": None if cancelled else expected.isoformat(),
             "minutes_away": None if cancelled else max(0, round((expected - now).total_seconds() / 60)),
             "delay_seconds": delay,
-            "status": "Cancelled" if cancelled else (delays.classify(delay) if delay is not None else "Scheduled"),
-            "label": delays.status_label(delay, cancelled),
+            "status": arrival_status,
+            "label": status_label,
+            "status_label": status_label,
+            "detour": row["route_id"] in detours,
+            "live": bool(predicted) or cancelled,
             "is_live": bool(predicted) or cancelled,
             "accessible": accessibility.is_accessible(row["wheelchair_accessible"]),
             "accessibility": accessibility.trip_label(row["wheelchair_accessible"]),
@@ -204,7 +211,12 @@ def create_app(db_path=None, now_fn=None):
         accessible_only = accessibility.wants_accessible(request.args.get("accessible"))
         data = upcoming_arrivals(conn(), stop_id, t, limit=int(request.args.get("limit", 6)),
                                  accessible_only=accessible_only)
-        data["updated_at"] = t.isoformat()
+        # UI-3: how fresh the live data is. updated_at is the last successful collection.
+        feed = feed_status(conn(), t)
+        last_ok = datetime.fromisoformat(feed["last_success"]) if feed["last_success"] else None
+        data["updated_at"] = (last_ok or t).isoformat()
+        data["feed_age_seconds"] = max(0, round((t - last_ok).total_seconds())) if last_ok else None
+        data["stale"] = not feed["live"]
         data["accessible_only"] = accessible_only
         if accessible_only and not accessibility.is_accessible(s["wheelchair_boarding"]):
             data["accessibility_notice"] = (

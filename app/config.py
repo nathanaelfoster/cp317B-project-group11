@@ -30,7 +30,7 @@ GRT_TRIP_UPDATES_URL = os.environ.get(
     "GRT_TRIP_UPDATES_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/tripupdates"
 )
 GRT_ALERTS_URL = os.environ.get(
-    "GRT_TRIP_UPDATES_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/tripupdates/1"
+    "GRT_ALERTS_URL", "https://webapps.regionofwaterloo.ca/api/grt-routes/api/alerts"
 )
 # UI-6a: signs the login session cookie. Set WIMI_SECRET_KEY to a long random
 # value anywhere other than a local demo.
